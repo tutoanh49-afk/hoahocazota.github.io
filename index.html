@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Ôn Tập Hóa Học 10 - Cuối Kỳ I</title>
+
+<style>
+body{
+    font-family:-apple-system, BlinkMacSystemFont, sans-serif;
+    background:#f5f5f7;
+    margin:0;
+}
+
+.container{
+    padding:20px;
+    padding-top:env(safe-area-inset-top);
+    padding-bottom:env(safe-area-inset-bottom);
+}
+
+h1{
+    text-align:center;
+    color:#007aff;
+    font-size:24px;
+    margin:20px 0 40px;
+}
+
+.card{
+    background:white;
+    border-radius:16px;
+    padding:20px;
+    margin-bottom:20px;
+    box-shadow:0 2px 10px rgba(0,0,0,.1);
+}
+
+.question-num{
+    font-weight:600;
+    color:#007aff;
+    font-size:18px;
+    margin-bottom:10px;
+}
+
+.question-text{
+    font-size:17px;
+    margin-bottom:15px;
+    line-height:1.5;
+}
+
+/* ===== SỬA LỖI ĐÁP ÁN CHỒNG NHAU ===== */
+.option{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    background:#f2f2f7;
+    border-radius:12px;
+    padding:16px;
+    margin:12px 0;
+    font-size:17px;
+    line-height:1.5;
+    cursor:pointer;
+    box-sizing:border-box;
+}
+
+.option input{
+    flex-shrink:0;
+    margin-top:4px;
+    transform:scale(1.3);
+}
+
+.option-text{
+    word-break:break-word;
+}
+
+/* Hiệu ứng chọn */
+.option:hover{
+    background:#e9e9f0;
+}
+
+.option input:checked + .option-text{
+    font-weight:600;
+}
+
+/* Kết quả */
+.correct-answer{ background:#d4edda!important; }
+.wrong-answer{ background:#ffd1d1!important; }
+
+.btn{
+    display:block;
+    width:90%;
+    max-width:400px;
+    margin:40px auto;
+    padding:16px;
+    background:#007aff;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:600;
+}
+
+.hidden{ display:none; }
+
+#result{
+    text-align:center;
+    font-size:22px;
+    font-weight:700;
+    margin:40px 0;
+}
+
+/* ===== TRẢ LỜI NGẮN ===== */
+.short-question{
+    background:#fff;
+    border-radius:12px;
+    padding:16px;
+    margin:15px 0;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.short-question b{
+    display:block;
+    margin-bottom:10px;
+    font-size:17px;
+    color:#007aff;
+}
+
+.short-inputs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.short-inputs input{
+    width:70px;
+    padding:10px;
+    font-size:16px;
+    text-align:center;
+    border-radius:8px;
+    border:1px solid #ccc;
+}
+
+.short-result{
+    margin-top:12px;
+    font-weight:bold;
+}
+
+/* ===== TỰ LUẬN ===== */
+.essay-question{
+    background:#fff;
+    border-radius:12px;
+    padding:16px;
+    margin:15px 0;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+.essay-question b{
+    display:block;
+    margin-bottom:10px;
+    font-size:17px;
+    color:#007aff;
+}
+
+textarea{
+    width:100%;
+    height:140px;
+    padding:12px;
+    font-size:16px;
+    border-radius:12px;
+    border:1px solid #ccc;
+    box-sizing:border-box;
+}
+
+.essay-answer{
+    display:none;
+    margin-top:12px;
+    background:#e8f4ff;
+    padding:12px;
+    border-left:4px solid #007aff;
+    border-radius:8px;
+    font-size:16px;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>ĐỀ CƯƠNG ÔN TẬP HÓA HỌC LỚP 10<br><small>Cuối Kỳ I - 2025</small></h1>
+
+<div id="quiz-form"></div>
+
+<h1 style="margin-top:60px;">PHẦN III – TRẢ LỜI NGẮN</h1>
+<div id="short"></div>
+
+<h1 style="margin-top:60px;">PHẦN III – TỰ LUẬN</h1>
+<div id="essay"></div>
+
+<button class="btn" id="submit-btn">Nộp Bài & Chấm Điểm</button>
+<button class="btn hidden" id="restart-btn">Làm Lại Toàn Bộ</button>
+<div id="result" class="hidden"></div>
+</div>
+
+<script>
+/* ===== DỮ LIỆU TRẮC NGHIỆM (GIỮ NGUYÊN) ===== */
+const questions = [
+            {q:"Câu 1. Các nguyên tố xếp ở chu kì 6 có số lớp electron trong nguyên tử là",o:["A. 5","B. 6","C. 3","D. 7"],c:1},
+            {q:"Câu 2. Trong bảng tuần hoàn các nguyên tố, số chu kì nhỏ và chu kì lớn là",o:["A. 3 và 3","B. 4 và 4","C. 4 và 3","D. 3 và 4"],c:2},
+            {q:"Câu 3. Số nguyên tố trong chu kì 3 và chu kì 5 là",o:["A. 18 và 8","B. 8 và 10","C. 8 và 18","D. 6 và 8"],c:2},
+            {q:"Câu 4. Bảng tuần hoàn hiện nay có số chu kì và số hàng ngang lần lượt là",o:["A. 7 và 9","B. 7 và 8","C. 7 và 7","D. 6 và 7"],c:0},
+            {q:"Câu 5. Các nguyên tố trong cùng một chu kì có đặc điểm gì chung.",o:["A. Số electron lớp ngoài cùng bằng nhau","B. Số electron hoá trị bằng nhau","C. Tất cả đúng","D. Số lớp electron bằng nhau"],c:3},
+            {q:"Câu 6. Các nguyên tố trong cùng một nhóm A (trừ He) có đặc điểm gì chung?",o:["A. Số electron hoá trị bằng nhau","B. Số electron lớp ngoài cùng bằng nhau","C. Có tính chất hoá học giống nhau","D. Tất cả đúng"],c:3},
+            {q:"Câu 7. Nguyên tử của những nguyên tố trong một nhóm đều có cùng số :",o:["A. Proton","B. Neutron","C. Lớp electron","D. Electron hóa trị"],c:3},
+            {q:"Câu 8. Các nguyên tố hoá học trong bảng tuần hoàn được sắp xếp theo nguyên tắc :",o:["A. Các nguyên tố có cùng số lớp electron trong nguyên tử được xếp cùng một hàng","B. Các nguyên tố có cùng số electron hoá trị trong nguyên tử được xếp thành một cột","C. Các nguyên.tố được sắp theo theo chiều tăng dần của điện tích hạt nhân nguyên tử","D. Cả A, B, C đúng"],c:3},
+            {q:"Câu 9. Số các nguyên tố trong các chu kì 1,2,3 và 4 lần lượt bằng:",o:["A. 1,8,18,32","B. 2,8,8,18","C. 2,8,18,18","D. 2,8,18,32"],c:3},
+            {q:"Câu 10. Cấu hình electron của nguyên tử oxygen là 1s²2s²2p⁴. Vị trí của oxygen trong bảng tuần hoàn là",o:["A. ô số 6, chu kì 2, nhóm VIA","B. ô số 6, chu kì 3, nhóm VIB","C. ô số 8, chu kì 2, nhóm VIA","D. ô số 8, chu kì 2, nhóm VIB"],c:2},
+            {q:"Câu 11. Cấu hình electron của nguyên tử sắt là 1s²2s²2p⁶3s²3p⁶3d⁶4s². Vị trí của sắt trong bảng tuần hoàn là",o:["A. ô số 26, chu kì 3, nhóm VIIIB","B. ô số 26, chu kì 3, nhóm VIIIA","C. ô số 26, chu kì 4, nhóm VIIIA","D. ô số 26, chu kì 4, nhóm VIIIB"],c:3},
+            {q:"Câu 12. Cho cấu hình electron các nguyên tố: Na: [Ne]3s¹, Cr: [Ar]3d⁵4s¹, Br: [Ar]3d¹⁰4s²4p⁵, F:1s²2s²2p⁵, Cu:[Ar]3d¹⁰4s¹. Số nguyên tố thuộc khối s, p, d lần lượt là",o:["A. 2, 1, 2","B. 1, 2, 2","C. 1, 1, 3","D. Không xác định được"],c:1},
+            {q:"Câu 13. Nhóm nguyên tố nào mà hợp chất oxide có hóa trị cao nhất có công thức chung là MO ?",o:["A. Nhóm IA","B. Nhóm IIA","C. Nhóm IVA","D. Nhóm IIIA"],c:1},
+            {q:"Câu 14. M là nguyên tố nhóm IA, oxide cao nhất của nó có công thức hóa học là :",o:["A. MO","B. MO₂","C. M₂O","D. M₂O₇"],c:2},
+            {q:"Câu 15. Nguyên tử của các nguyên tố kim loại kiềm có cấu hình electron lớp ngoài cùng là",o:["A. ns²np²","B. ns²","C. ns²np⁵","D. ns¹"],c:3},
+            {q:"Câu 16. Trong một chu kì, theo chiều số hiệu nguyên tử tăng dần:",o:["A. Tính kim loại của các nguyên tố tăng dần","B. Tính kim loại và tính phi kim của nguyên tố giảm dần","C. Tính phi kim của các nguyên tố tăng dần","D. Tính kim loại và tính phi kim của các nguyên tố tăng dần"],c:2},
+            {q:"Câu 17. Trong cùng một chu kì, theo chiều từ trái qua phải, hóa trị cao nhất của nguyên tố đối với oxygen",o:["A. Giảm dần","B. Tăng dần","C. Không đổi","D. Biến đổi không có quy luật"],c:1},
+            {q:"Câu 18. Giá trị độ âm điện giảm dần theo thứ tự từ trái sang phải của các nguyên tố của chu kì 2 là :",o:["A. F , O , N , C , B , Be , Li","B. Li , B , Be , N , C , F , O","C. Be , Li , C , B , O , N , F","D. N , O , F , Li , Be , B , C"],c:0},
+            {q:"Câu 19. Cấu hình electron hóa trị của nguyên tử các nguyên tố nhóm IIA trong bảng tuần hoàn đều là",o:["A. np²","B. ns²","C. ns²np²","D. ns²np²"],c:1},
+            {q:"Câu 20. Một nguyên tố R có cấu hình electron: 1s²2s²2p³, công thức oxide cao nhất và hợp chất khí với hydrogen lần lượt là:",o:["A. R₂O₅, RH₅","B. R₂O₃, RH","C. R₂O₇, RH","D. R₂O₅, RH₃"],c:3},
+            {q:"Câu 21. Trong các chất dưới đây, chất nào có tính acid yếu nhất?",o:["A. H₂SO₄","B. HClO₄","C. H₃PO₄","D. H₂SiO₃"],c:3},
+            {q:"Câu 22. Dãy gồm các chất có tính base tăng dần là",o:["A. Al(OH)₃, Mg(OH)₂, NaOH","B. NaOH, Mg(OH)₂, Al(OH)₃","C. Mg(OH)₂, Al(OH)₃, NaOH","D. Al(OH)₃, NaOH, Mg(OH)₂"],c:2},
+            {q:"Câu 23. Liên kết ion được tạo thành giữa hai nguyên tử bằng",o:["A. Một hay nhiều cặp electron dùng chung","B. Một hay nhiều cặp electron dùng chung chỉ do một nguyên tử đóng góp","C. Lực hút tĩnh điện giữa các ion mang điện tích trái dấu","D. Một hay nhiều cặp electron dùng chung và các cặp electron này lệch về nguyên tử có độ âm điện lớn hơn"],c:2},
+            {q:"Câu 24. Liên kết ion là loại liên kết hóa học được hình thành nhờ lực hút tĩnh điện giữa các phần tử nào sau đây ?",o:["A. Cation và anion","B. Các anion","C. Cation và electron tự do","D. Electron và hạt nhân nguyên tử"],c:0},
+            {q:"Câu 25. Biểu diễn sự tạo thành ion nào sau đây là đúng ?",o:["A. Na + 1e → Na⁺","B. Cl₂ → 2Cl⁻ + 2e","C. O₂ + 2e → 2O²⁻","D. Al → Al³⁺ + 3e"],c:3},
+            {q:"Câu 26. Số electron và số proton trong ion là",o:["A. 11 electron và 11 proton","B. 10 electron và 11 proton","C. 11 electron và 10 proton","D. 11 electron và 12 proton"],c:1},
+            {q:"Câu 27. Cặp nguyên tử nào sau đây không tạo hợp chất dạng hoặc",o:["A. Na và O","B. K và S","C. Ca và O","D. Ca và Cl"],c:2},
+            {q:"Câu 28. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – s ?",o:["A. H₂","B. Cl₂","C. NH₃","D. HCl"],c:0},
+            {q:"Câu 29. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – p ?",o:["A. H₂","B. Cl₂","C. NH₃","D. O₂"],c:3},
+            {q:"Câu 30. Phát biểu nào sau đây không đúng về liên kết có trong phân tử HCl ?",o:["A. Giữa nguyên tử H và Cl có một liên kết đơn","B. Các electron tham gia liên kết đồng thời bị hút về phía hai hạt nhân","C. Phân tử có một momen lưỡng cực","D. Một electron của nguyên tử hydrogen và một electron của nguyên tử chlorine được góp chung và cách đều hai nguyên tử"],c:3},
+            {q:"Câu 31. Cho chất hữu cơ A có công thức cấu tạo sau: [hình vẽ không hiển thị] Số liên kết σ trong phân tử A là",o:["A. 6","B. 8","C. 9","D. 11"],c:3},
+            {q:"Câu 32. Cho hai chất hữu cơ X, Y có công thức cấu tạo sau: [hình vẽ] Nhận xét nào sau đây là đúng ?",o:["A. X và Y có số liên kết σ và số liên kết π bằng nhau","B. X có số liên kết σ và số liên kết π nhiều hơn Y","C. X có số liên kết σ nhiều hơn, nhưng số liên kết π ít hơn Y","D. X có số liên kết σ ít hơn, nhưng số liên kết π nhiều hơn Y"],c:2},
+            {q:"Câu 33. Trong phân tử ammonia (NH₃), số cặp electron chung giữa nguyên tử nitrogen và các nguyên tử hydrogen là",o:["A. 3","B. 2","C. 1","D. 4"],c:0},
+            {q:"Câu 34. Biết nguyên tử chlorine có 7 electron hóa trị, công thức electron của phân tử chlorine là",o:["(hình vẽ không hiển thị - đáp án thường là Cl:Cl với 3 cặp e tự do mỗi bên)"],c:0}, // Giả sử đáp án A
+            {q:"Câu 35. Chất nào sau đây không có liên kết cộng hóa trị phân cực ?",o:["A. O₂","B. CO₂","C. NH₃","D. HCl"],c:0},
+            {q:"Câu 36. Liên kết hydrogen là loại liên kết hóa học được hình thành giữa các nguyên tử nào sau đây ?",o:["A. Phi kim và hydrogen trong hai phân tử khác nhau","B. Phi kim và hydrogen trong cùng một phân tử","C. Phi kim có độ âm điện lớn và nguyên tử hydrogen","D. F, O, N… có độ âm điện lớn, đồng thời có cặp electron hóa trị chưa liên kết và nguyên tử hydrogen linh động"],c:3},
+            {q:"Câu 37. Tương tác van der Waals được hình thành do",o:["A. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các nguyên tử","B. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các phân tử","C. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các nguyên tử hay phân tử","D. Lực hút tĩnh điện giữa các phân tử phân cực"],c:2},
+            {q:"Câu 38. Chất nào sau đây có thể tạo liên kết hydrogen ?",o:["A. PF₃","B. CH₄","C. CH₃OH","D. H₂S"],c:2},
+            {q:"Câu 39. Chất nào sau đây không thể tạo được liên kết hydrogen ?",o:["A. H₂O","B. CH₄","C. CH₃OH","D. NH₃"],c:1},
+            {q:"Câu 40. Tương tác van der Waals tồn tại giữa những",o:["A. Ion","B. Hạt proton","C. Hạt neutron","D. Phân tử"],c:3},
+            {q:"Câu 41. Liên kết trong phân tử Hydrogen chloride (HCl) được hình thành",o:["A. Do sự xen phủ giữa orbital p của nguyên tử H và orbital s của nguyên tử Cl","B. Do sự xen phủ giữa orbital s của nguyên tử H và orbital s của nguyên tử Cl","C. Do sự xen phủ giữa orbital s của nguyên tử H và orbital p của nguyên tử Cl","D. Do sự xen phủ giữa orbital p của nguyên tử H và orbital p của nguyên tử Cl"],c:2},
+            {q:"Câu 42. Các liên kết biểu diễn bằng các đường nét đứt có vai trò quan trọng trong việc làm bền chuỗi xoắn đôi DNA. Đó là loại liên kết gì?",o:["A. Liên kết ion","B. Liên kết cộng hóa trị có cực","C. Liên kết cộng hóa trị không cực","D. Liên kết hydrogen"],c:3},
+        ];
+
+const shortQs = [
+            ["Câu 1. Cho các chất sau: C2H6; H2O; NH3; PF3; C2H5OH. Có bao nhiêu chất tạo được liên kết hydrogen?",1],
+            ["Câu 2. Giữa H2O và HF có thể tạo ra bao nhiêu kiểu liên kết hydrogen?",2],
+            ["Câu 3. Có bao nhiêu chất mà trong phân tử chứa liên kết cộng hoá trị không cực trong dãy các chất sau: HCl, O2, CO2, N2, MgO?",3],
+            ["Câu 4. Có bao nhiêu hợp chất chỉ chứa liên kết  cộng hoá trị trong dãy các chất sau: NH3, CaO, PCl3, H2S, NaOH?",3],
+            ["Câu 5.  Cho các  chất sau: NaCl, H2O, K2O, BaCl2, CaF2, HCl, NH4NO3. Số phân tử có liên kết ion là ?",5],
+            ["Câu 6. Để đạt quy tắc octet, nguyên tử Na (Z=11) đã nhường bao nhiêu electron?",1],
+            ["Câu 7. Cho các ion : Na+, Mg2+, O2-, Cl-. Có bao nhiêu hợp chất ion tạo thành từ các ion đã cho ?",3],
+            ["Câu 8. Cho các nguyên tố nitrogen (7N) có hóa trị trong hợp chất với hydrogen là  x. Xác định x. ",3],
+            ["Câu 9. Cho các nguyên tố sulfur (16S) có hóa trị cao nhất trong hợp chất với oxide là  x. Xác định x. ",6],
+            ["Câu 10. Cho các nguyên tố Na, C, S, N, P, Ca, Mg, Cl, K. Số nguyên tố mà ra hợp chất hydroxide cao nhất có tính acid ? ",4]
+        ];
+
+const essayQs = [
+            {q:"Câu 1. Cho các nguyên tố: X (Z=2); Y (Z=9); T (Z=12); M (Z=13); A (Z=14). Viết  cấu hình electron của các nguyên tố, xác định vị trí các nguyên tố trong bảng tuần hoàn.",a:`X(Z=2): 1s² – chu kì 1, nhóm VIIIA<br>Y(Z=9): 1s² 2s² 2p⁵ – chu kì 2, nhóm VIIA<br>T(Z=12): 1s² 2s² 2p⁶ 3s² – chu kì 3, nhóm IIA<br>M(Z=13): 1s² 2s² 2p⁶ 3s² 3p¹ – chu kì 3, nhóm IIIA<br>A(Z=14): 1s² 2s² 2p⁶ 3s² 3p² – chu kì 3, nhóm IVA`},
+            {q:"Câu 2. X và Y là 2 nguyên tố thuộc cùng nhóm A và thuộc 2 chu kì liên tiếp trong bảng hệ thống tuần hoàn. Tổng số hạt proton trong 2 hạt nhân nguyên tử X, Y bằng 30. Số hạt mang điện của nguyên tố X là bao nhiêu?",a:"X = 14 → số hạt mang điện = p + e = 28"},
+            {q:"Câu 3. Oxide cao nhất của nguyên tố R thuộc nhóm VIA có   oxygen về khối lượng, là một sản phẩm trung gian để sản xuất acid   có tầm quan trọng bậc nhất trong công nghiệp. Phần trăm về khối lượng của R trong hợp chất khí với hydrogen là bao nhiêu?",a:"R là S → H₂S → %m(S) = 32/(32+2) × 100 ≈ 94,1%"},
+            {q:"Câu 4. Trong đời sống muối ăn (NaCl) và các gia vị, phụ gia C5H8NO4Na: (bột ngọt) C7H5O2Na (Chất bảo quản thực phẩm) đều có chứa ion sodium. Hiệp hội Tim mạch Hoa Kỳ khuyến cáo lượng ion sodium mỗi ngày được nạp vào cơ thể mỗi người cần thấp hơn 2300mg để bảo vệ tim mạch và thận. Nếu trung bình mỗi ngày một người dùng tổng cộng 5 gam muối ăn; 0,5 gam bột ngọt; 0,05 gam chất bảo quản thì lượng sodium tiêu thụ thấp hơn mức cho phép là bao nhiêu mg ?",a:`NaCl (5g): ≈ 1966 mg Na<br>Bột ngọt (0,5g): ≈ 68 mg Na<br>Chất bảo quản (0,05g): ≈ 8 mg Na<br>Tổng ≈ 2042 mg → thấp hơn 2300 mg là ≈ 258 mg`}
+        ];
+
+const form = document.getElementById("quiz-form");
+const shortDiv = document.getElementById("short");
+const essayDiv = document.getElementById("essay");
+const submit = document.getElementById("submit-btn");
+const restart = document.getElementById("restart-btn");
+const result = document.getElementById("result");
+
+function shuffle(a){
+    for(let i=a.length-1;i>0;i--){
+        const j=Math.floor(Math.random()*(i+1));
+        [a[i],a[j]]=[a[j],a[i]];
+    }
+    return a;
+}
+
+function loadQuiz(){
+    form.innerHTML="";
+    shuffle(questions).forEach((q,qi)=>{
+        const card=document.createElement("div");
+        card.className="card";
+        card.innerHTML=`
+            <div class="question-num">Câu ${qi+1}</div>
+            <div class="question-text">${q.q}</div>
+            <div id="opt-${qi}"></div>
+        `;
+        form.appendChild(card);
+
+        const opts=document.getElementById(`opt-${qi}`);
+        shuffle(q.o.map((t,i)=>({t,c:i===q.c}))).forEach(op=>{
+            const lab=document.createElement("label");
+            lab.className="option";
+            lab.innerHTML=`
+                <input type="radio" name="q${qi}" value="${op.c?'c':'w'}">
+                <span class="option-text">${op.t}</span>
+            `;
+            opts.appendChild(lab);
+        });
+    });
+}
+
+function loadShort(){
+    shortDiv.innerHTML="";
+    shortQs.forEach(s=>{
+        shortDiv.innerHTML+=`
+        <div class="short-question" data-answer="${s[1]}">
+            <b>${s[0]}</b>
+            <div class="short-inputs">
+                <input type="number"><input type="number">
+                <input type="number"><input type="number">
+            </div>
+            <div class="short-result"></div>
+        </div>`;
+    });
+}
+
+function loadEssay(){
+    essayDiv.innerHTML="";
+    essayQs.forEach(e=>{
+        essayDiv.innerHTML+=`
+        <div class="essay-question">
+            <b>${e.q}</b>
+            <textarea></textarea>
+            <div class="essay-answer"><b>Đáp án:</b><br>${e.a}</div>
+        </div>`;
+    });
+}
+
+submit.onclick=()=>{
+    let score=0;
+    document.querySelectorAll(".card").forEach((card,qi)=>{
+        const sel=card.querySelector(`input[name="q${qi}"]:checked`);
+        card.querySelectorAll(".option").forEach(o=>{
+            const i=o.querySelector("input");
+            if(i.value==="c") o.classList.add("correct-answer");
+            if(sel===i && i.value!=="c") o.classList.add("wrong-answer");
+            i.disabled=true;
+        });
+        if(sel && sel.value==="c") score++;
+    });
+
+    document.querySelectorAll(".essay-answer").forEach(a=>a.style.display="block");
+
+    result.innerHTML=`Bạn đúng <span style="color:#34c759">${score}</span> / ${questions.length} câu`;
+    result.classList.remove("hidden");
+    submit.classList.add("hidden");
+    restart.classList.remove("hidden");
+};
+
+restart.onclick=()=>location.reload();
+
+loadQuiz();
+loadShort();
+loadEssay();
+</script>
+</body>
+</html>
