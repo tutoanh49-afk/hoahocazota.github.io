@@ -1,226 +1,109 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Ôn Tập Hóa Học 10 - Cuối Kỳ I</title>
-
-<style>
-body{
-    font-family:-apple-system, BlinkMacSystemFont, sans-serif;
-    background:#f5f5f7;
-    margin:0;
-}
-
-.container{
-    padding:20px;
-    padding-top:env(safe-area-inset-top);
-    padding-bottom:env(safe-area-inset-bottom);
-}
-
-h1{
-    text-align:center;
-    color:#007aff;
-    font-size:24px;
-    margin:20px 0 40px;
-}
-
-.card{
-    background:white;
-    border-radius:16px;
-    padding:20px;
-    margin-bottom:20px;
-    box-shadow:0 2px 10px rgba(0,0,0,.1);
-}
-
-.question-num{
-    font-weight:600;
-    color:#007aff;
-    font-size:18px;
-    margin-bottom:10px;
-}
-
-.question-text{
-    font-size:17px;
-    margin-bottom:15px;
-    line-height:1.5;
-}
-
-/* ===== SỬA LỖI ĐÁP ÁN CHỒNG NHAU ===== */
-.option{
-    display:block;
-    background:#f2f2f7;
-    border-radius:12px;
-    padding:16px 16px 16px 52px;
-    margin:12px 0;
-    font-size:17px;
-    line-height:1.5;
-    cursor:pointer;
-    position:relative;
-    box-sizing:border-box;
-}
-
-/* ẨN RADIO GỐC – NGUYÊN NHÂN GÂY CHỒNG */
-.option input{
-    position:absolute;
-    opacity:0;
-    pointer-events:none;
-}
-
-/* RADIO GIẢ */
-.option::before{
-    content:"";
-    position:absolute;
-    left:18px;
-    top:20px;
-    width:18px;
-    height:18px;
-    border-radius:50%;
-    border:2px solid #007aff;
-    box-sizing:border-box;
-}
-
-/* KHI ĐƯỢC CHỌN */
-.option input:checked + .option-text{
-    font-weight:600;
-}
-
-.option input:checked ~ ::before{
-    background:#007aff;
-}
-
-/* TÔ MÀU KẾT QUẢ */
-.correct-answer{ background:#d4edda!important; }
-.wrong-answer{ background:#ffd1d1!important; }
-
-.option-text{
-    display:block;
-    word-break:break-word;
-}
-
-/* Kết quả */
-.correct-answer{ background:#d4edda!important; }
-.wrong-answer{ background:#ffd1d1!important; }
-
-.btn{
-    display:block;
-    width:90%;
-    max-width:400px;
-    margin:40px auto;
-    padding:16px;
-    background:#007aff;
-    color:white;
-    border:none;
-    border-radius:12px;
-    font-size:18px;
-    font-weight:600;
-}
-
-.hidden{ display:none; }
-
-#result{
-    text-align:center;
-    font-size:22px;
-    font-weight:700;
-    margin:40px 0;
-}
-
-/* ===== TRẢ LỜI NGẮN ===== */
-.short-question{
-    background:#fff;
-    border-radius:12px;
-    padding:16px;
-    margin:15px 0;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
-
-.short-question b{
-    display:block;
-    margin-bottom:10px;
-    font-size:17px;
-    color:#007aff;
-}
-
-.short-inputs{
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Ôn Tập Hóa Học 10 - Cuối Kỳ I</title>
+    <style>
+        .option{
     display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-}
-
-.short-inputs input{
-    width:70px;
-    padding:10px;
-    font-size:16px;
-    text-align:center;
-    border-radius:8px;
-    border:1px solid #ccc;
-}
-
-.short-result{
-    margin-top:12px;
-    font-weight:bold;
-}
-
-/* ===== TỰ LUẬN ===== */
-.essay-question{
-    background:#fff;
-    border-radius:12px;
-    padding:16px;
-    margin:15px 0;
-    box-shadow:0 2px 8px rgba(0,0,0,.1);
-}
-
-.essay-question b{
-    display:block;
-    margin-bottom:10px;
-    font-size:17px;
-    color:#007aff;
-}
-
-textarea{
-    width:100%;
-    height:140px;
-    padding:12px;
-    font-size:16px;
-    border-radius:12px;
-    border:1px solid #ccc;
+    align-items:flex-start;
+    gap:12px;
     box-sizing:border-box;
 }
 
-.essay-answer{
-    display:none;
-    margin-top:12px;
-    background:#e8f4ff;
-    padding:12px;
-    border-left:4px solid #007aff;
-    border-radius:8px;
-    font-size:16px;
+.option input{
+    flex-shrink:0;
+    margin-top:4px;
 }
-</style>
+
+.option img{
+    max-width:120px;
+    display:block;
+    margin-top:6px;
+}
+
+        body { font-family: -apple-system, sans-serif; background:#f5f5f7; margin:0; padding:0; }
+        .container { padding:20px; padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom); }
+        h1 { text-align:center; color:#007aff; font-size:24px; margin:20px 0 40px; }
+        .card { background:white; border-radius:16px; padding:20px; margin-bottom:20px; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+        .question-num { font-weight:600; color:#007aff; font-size:18px; margin-bottom:10px; }
+        .question-text { font-size:17px; margin-bottom:15px; line-height:1.4; }
+        .option { background:#f2f2f7; border-radius:12px; padding:16px; margin:10px 0; font-size:17px; }
+        .option input { margin-right:12px; transform:scale(1.3); }
+        .btn { display:block; width:90%; max-width:400px; margin:40px auto; padding:16px; background:#007aff; color:white; border:none; border-radius:12px; font-size:18px; font-weight:600; }
+        .hidden { display:none; }
+        .correct-answer { background:#d4edda !important; }
+        .wrong-answer { background:#ffd1d1 !important; }
+        #result { text-align:center; font-size:24px; font-weight:700; margin:40px 0; }
+
+        /* Phần III - Trả lời ngắn */
+        .short-question { background:#fff; border-radius:12px; padding:16px; margin:15px 0; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+        .short-question b { display:block; margin-bottom:10px; font-size:17px; color:#007aff; }
+        .short-inputs { display:flex; flex-wrap:wrap; gap:10px; }
+        .short-inputs input { width:60px; padding:10px; font-size:16px; text-align:center; border-radius:8px; border:1px solid #ccc; }
+        .short-result { margin-top:12px; font-weight:bold; font-size:16px; }
+
+        /* Phần III - Tự luận */
+        .essay-question { background:#fff; border-radius:12px; padding:16px; margin:15px 0; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
+        .essay-question b { display:block; margin-bottom:10px; font-size:17px; color:#007aff; }
+        textarea { width:100%; height:140px; padding:12px; font-size:16px; border-radius:12px; border:1px solid #ccc; box-sizing:border-box; margin-top:8px; }
+        .essay-answer { display:none; margin-top:12px; background:#e8f4ff; padding:12px; border-left:4px solid #007aff; border-radius:8px; font-size:16px; }
+        .essay-answer b { color:#007aff; }
+        .question-image{
+            width:100%;
+            max-width:420px;
+            margin:12px auto 18px;
+            display:block;
+            border-radius:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,.15);
+            }
+
+    </style>
 </head>
-
 <body>
-<div class="container">
-<h1>ĐỀ CƯƠNG ÔN TẬP HÓA HỌC LỚP 10<br><small>Cuối Kỳ I - 2025</small></h1>
+    <!-- ===== IMAGE BANK (IMGBB) ===== -->
+<div id="image-bank" style="display:none">
 
-<div id="quiz-form"></div>
+<!-- Ảnh câu hỏi -->
+<img src="https://i.ibb.co/Sw4C8SD3/31.png" alt="31">
+<img src="https://i.ibb.co/zgrWsK1/32.png" alt="32">
+<img src="https://i.ibb.co/pjSn6hht/41.jpg" alt="41">
+<img src="https://i.ibb.co/wjtR0Fm/42.png" alt="42">
 
-<h1 style="margin-top:60px;">PHẦN III – TRẢ LỜI NGẮN</h1>
-<div id="short"></div>
+<!-- Ảnh đáp án câu 34 -->
+<img src="https://i.ibb.co/7JrkCdBQ/34-a.png" alt="34 a">
+<img src="https://i.ibb.co/Nnt0Hp6Q/34-b.png" alt="34 b">
+<img src="https://i.ibb.co/nqVH6j2P/34-c.png" alt="34 c">
+<img src="https://i.ibb.co/DfgbYYDf/34-d.png" alt="34 d">
 
-<h1 style="margin-top:60px;">PHẦN III – TỰ LUẬN</h1>
-<div id="essay"></div>
-
-<button class="btn" id="submit-btn">Nộp Bài & Chấm Điểm</button>
-<button class="btn hidden" id="restart-btn">Làm Lại Toàn Bộ</button>
-<div id="result" class="hidden"></div>
 </div>
+<!-- ============================== -->
 
-<script>
-/* ===== DỮ LIỆU TRẮC NGHIỆM (GIỮ NGUYÊN) ===== */
-const questions = [
+    <div class="container">
+        <h1>ĐỀ CƯƠNG ÔN TẬP HÓA HỌC LỚP 10<br><small>Cuối Kỳ I - 2025</small></h1>
+
+        <!-- PHẦN I & II: Trắc nghiệm (đã có sẵn) -->
+        <div id="quiz-form"></div>
+
+        <!-- PHẦN III – TRẢ LỜI NGẮN -->
+        <h1 style="margin-top:60px;">PHẦN III – TRẢ LỜI NGẮN</h1>
+        <div id="short"></div>
+
+        <!-- PHẦN III – TỰ LUẬN -->
+        <h1 style="margin-top:60px;">PHẦN III – TỰ LUẬN</h1>
+        <div id="essay"></div>
+
+        <button class="btn" id="submit-btn">Nộp Bài & Chấm Điểm</button>
+        <button class="btn hidden" id="restart-btn">Làm Lại Toàn Bộ</button>
+        <div id="result" class="hidden"></div>
+    </div>
+
+    <script>
+        const questions = [
+            // PHẦN I - TRẮC NGHIỆM NHIỀU LỰA CHỌN (giữ nguyên như cũ)
             {q:"Câu 1. Các nguyên tố xếp ở chu kì 6 có số lớp electron trong nguyên tử là",o:["A. 5","B. 6","C. 3","D. 7"],c:1},
             {q:"Câu 2. Trong bảng tuần hoàn các nguyên tố, số chu kì nhỏ và chu kì lớn là",o:["A. 3 và 3","B. 4 và 4","C. 4 và 3","D. 3 và 4"],c:2},
             {q:"Câu 3. Số nguyên tố trong chu kì 3 và chu kì 5 là",o:["A. 18 và 8","B. 8 và 10","C. 8 và 18","D. 6 và 8"],c:2},
@@ -251,10 +134,10 @@ const questions = [
             {q:"Câu 28. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – s ?",o:["A. H₂","B. Cl₂","C. NH₃","D. HCl"],c:0},
             {q:"Câu 29. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – p ?",o:["A. H₂","B. Cl₂","C. NH₃","D. O₂"],c:3},
             {q:"Câu 30. Phát biểu nào sau đây không đúng về liên kết có trong phân tử HCl ?",o:["A. Giữa nguyên tử H và Cl có một liên kết đơn","B. Các electron tham gia liên kết đồng thời bị hút về phía hai hạt nhân","C. Phân tử có một momen lưỡng cực","D. Một electron của nguyên tử hydrogen và một electron của nguyên tử chlorine được góp chung và cách đều hai nguyên tử"],c:3},
-            {q:"Câu 31. Cho chất hữu cơ A có công thức cấu tạo sau: [hình vẽ không hiển thị] Số liên kết σ trong phân tử A là",o:["A. 6","B. 8","C. 9","D. 11"],c:3},
+            {q:"Câu 31. Cho chất hữu cơ A có công thức cấu tạo sau: Số liên kết σ trong phân tử A là",o:["A. 6","B. 8","C. 9","D. 11"],c:3},
             {q:"Câu 32. Cho hai chất hữu cơ X, Y có công thức cấu tạo sau: [hình vẽ] Nhận xét nào sau đây là đúng ?",o:["A. X và Y có số liên kết σ và số liên kết π bằng nhau","B. X có số liên kết σ và số liên kết π nhiều hơn Y","C. X có số liên kết σ nhiều hơn, nhưng số liên kết π ít hơn Y","D. X có số liên kết σ ít hơn, nhưng số liên kết π nhiều hơn Y"],c:2},
             {q:"Câu 33. Trong phân tử ammonia (NH₃), số cặp electron chung giữa nguyên tử nitrogen và các nguyên tử hydrogen là",o:["A. 3","B. 2","C. 1","D. 4"],c:0},
-            {q:"Câu 34. Biết nguyên tử chlorine có 7 electron hóa trị, công thức electron của phân tử chlorine là",o:["(hình vẽ không hiển thị - đáp án thường là Cl:Cl với 3 cặp e tự do mỗi bên)"],c:0}, // Giả sử đáp án A
+            {q:"Câu 34. Biết nguyên tử chlorine có 7 electron hóa trị, công thức electron của phân tử chlorine là",o:[""],c:0}, // Giả sử đáp án A
             {q:"Câu 35. Chất nào sau đây không có liên kết cộng hóa trị phân cực ?",o:["A. O₂","B. CO₂","C. NH₃","D. HCl"],c:0},
             {q:"Câu 36. Liên kết hydrogen là loại liên kết hóa học được hình thành giữa các nguyên tử nào sau đây ?",o:["A. Phi kim và hydrogen trong hai phân tử khác nhau","B. Phi kim và hydrogen trong cùng một phân tử","C. Phi kim có độ âm điện lớn và nguyên tử hydrogen","D. F, O, N… có độ âm điện lớn, đồng thời có cặp electron hóa trị chưa liên kết và nguyên tử hydrogen linh động"],c:3},
             {q:"Câu 37. Tương tác van der Waals được hình thành do",o:["A. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các nguyên tử","B. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các phân tử","C. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các nguyên tử hay phân tử","D. Lực hút tĩnh điện giữa các phân tử phân cực"],c:2},
@@ -265,7 +148,8 @@ const questions = [
             {q:"Câu 42. Các liên kết biểu diễn bằng các đường nét đứt có vai trò quan trọng trong việc làm bền chuỗi xoắn đôi DNA. Đó là loại liên kết gì?",o:["A. Liên kết ion","B. Liên kết cộng hóa trị có cực","C. Liên kết cộng hóa trị không cực","D. Liên kết hydrogen"],c:3},
         ];
 
-const shortQs = [
+        /* ===== DỮ LIỆU PHẦN III - TRẢ LỜI NGẮN ===== */
+        const shortQs = [
             ["Câu 1. Cho các chất sau: C2H6; H2O; NH3; PF3; C2H5OH. Có bao nhiêu chất tạo được liên kết hydrogen?",1],
             ["Câu 2. Giữa H2O và HF có thể tạo ra bao nhiêu kiểu liên kết hydrogen?",2],
             ["Câu 3. Có bao nhiêu chất mà trong phân tử chứa liên kết cộng hoá trị không cực trong dãy các chất sau: HCl, O2, CO2, N2, MgO?",3],
@@ -278,107 +162,164 @@ const shortQs = [
             ["Câu 10. Cho các nguyên tố Na, C, S, N, P, Ca, Mg, Cl, K. Số nguyên tố mà ra hợp chất hydroxide cao nhất có tính acid ? ",4]
         ];
 
-const essayQs = [
+        /* ===== DỮ LIỆU PHẦN III - TỰ LUẬN ===== */
+        const essayQs = [
             {q:"Câu 1. Cho các nguyên tố: X (Z=2); Y (Z=9); T (Z=12); M (Z=13); A (Z=14). Viết  cấu hình electron của các nguyên tố, xác định vị trí các nguyên tố trong bảng tuần hoàn.",a:`X(Z=2): 1s² – chu kì 1, nhóm VIIIA<br>Y(Z=9): 1s² 2s² 2p⁵ – chu kì 2, nhóm VIIA<br>T(Z=12): 1s² 2s² 2p⁶ 3s² – chu kì 3, nhóm IIA<br>M(Z=13): 1s² 2s² 2p⁶ 3s² 3p¹ – chu kì 3, nhóm IIIA<br>A(Z=14): 1s² 2s² 2p⁶ 3s² 3p² – chu kì 3, nhóm IVA`},
             {q:"Câu 2. X và Y là 2 nguyên tố thuộc cùng nhóm A và thuộc 2 chu kì liên tiếp trong bảng hệ thống tuần hoàn. Tổng số hạt proton trong 2 hạt nhân nguyên tử X, Y bằng 30. Số hạt mang điện của nguyên tố X là bao nhiêu?",a:"X = 14 → số hạt mang điện = p + e = 28"},
             {q:"Câu 3. Oxide cao nhất của nguyên tố R thuộc nhóm VIA có   oxygen về khối lượng, là một sản phẩm trung gian để sản xuất acid   có tầm quan trọng bậc nhất trong công nghiệp. Phần trăm về khối lượng của R trong hợp chất khí với hydrogen là bao nhiêu?",a:"R là S → H₂S → %m(S) = 32/(32+2) × 100 ≈ 94,1%"},
             {q:"Câu 4. Trong đời sống muối ăn (NaCl) và các gia vị, phụ gia C5H8NO4Na: (bột ngọt) C7H5O2Na (Chất bảo quản thực phẩm) đều có chứa ion sodium. Hiệp hội Tim mạch Hoa Kỳ khuyến cáo lượng ion sodium mỗi ngày được nạp vào cơ thể mỗi người cần thấp hơn 2300mg để bảo vệ tim mạch và thận. Nếu trung bình mỗi ngày một người dùng tổng cộng 5 gam muối ăn; 0,5 gam bột ngọt; 0,05 gam chất bảo quản thì lượng sodium tiêu thụ thấp hơn mức cho phép là bao nhiêu mg ?",a:`NaCl (5g): ≈ 1966 mg Na<br>Bột ngọt (0,5g): ≈ 68 mg Na<br>Chất bảo quản (0,05g): ≈ 8 mg Na<br>Tổng ≈ 2042 mg → thấp hơn 2300 mg là ≈ 258 mg`}
         ];
 
-const form = document.getElementById("quiz-form");
-const shortDiv = document.getElementById("short");
-const essayDiv = document.getElementById("essay");
-const submit = document.getElementById("submit-btn");
-const restart = document.getElementById("restart-btn");
-const result = document.getElementById("result");
+        const form = document.getElementById('quiz-form');
+        const shortDiv = document.getElementById('short');
+        const essayDiv = document.getElementById('essay');
+        const submit = document.getElementById('submit-btn');
+        const restart = document.getElementById('restart-btn');
+        const result = document.getElementById('result');
 
-function shuffle(a){
-    for(let i=a.length-1;i>0;i--){
-        const j=Math.floor(Math.random()*(i+1));
-        [a[i],a[j]]=[a[j],a[i]];
-    }
-    return a;
-}
+        function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
-function loadQuiz(){
-    form.innerHTML="";
-    shuffle(questions).forEach((q,qi)=>{
-        const card=document.createElement("div");
-        card.className="card";
-        card.innerHTML=`
-            <div class="question-num">Câu ${qi+1}</div>
-            <div class="question-text">${q.q}</div>
-            <div id="opt-${qi}"></div>
-        `;
-        form.appendChild(card);
+        function loadQuiz(){
+            form.innerHTML='';
+            shuffle(questions).forEach((q,qi)=>{
+                const card=document.createElement('div'); card.className='card';
+                card.innerHTML = `
+                        <div class="question-num">Câu ${qi+1}</div>
+                        <div class="question-text">${q.q}</div>
+                        ${q.img ? `<img src="${q.img}" class="question-image">` : ``}
+                        <div id="opt-${qi}"></div>
+                            `;
 
-        const opts=document.getElementById(`opt-${qi}`);
-        shuffle(q.o.map((t,i)=>({t,c:i===q.c}))).forEach(op=>{
-            const lab=document.createElement("label");
-            lab.className="option";
-            lab.innerHTML=`
-                <input type="radio" name="q${qi}" value="${op.c?'c':'w'}">
-                <span class="option-text">${op.t}</span>
-            `;
-            opts.appendChild(lab);
-        });
+                form.appendChild(card);
+                const opts=document.getElementById(`opt-${qi}`);
+                shuffle(q.o.map((t,i)=>({t,c:i===q.c}))).forEach(op=>{
+                    const lab=document.createElement('label'); lab.className='option';
+                    lab.innerHTML=`<input type="radio" name="q${qi}" value="${op.c?'c':'w'}"> ${op.t}`;
+                    opts.appendChild(lab);
+                });
+            });
+        }
+
+        function loadShort(){
+            shortDiv.innerHTML = '';
+            shortQs.forEach((sq, i) => {
+                shortDiv.innerHTML += `
+                <div class="short-question" data-answer="${sq[1]}">
+                    <b>${sq[0]}</b>
+                    <div class="short-inputs">
+                        <input type="number">
+                        <input type="number">
+                        <input type="number">
+                        <input type="number">
+                    </div>
+                    <div class="short-result"></div>
+                </div>`;
+            });
+        }
+function applyImagesByAlt(){
+    const imgs = document.querySelectorAll("#image-bank img");
+
+    imgs.forEach(img=>{
+        const alt = img.alt.toLowerCase().trim();
+
+        // lấy số câu
+        const numMatch = alt.match(/\d+/);
+        if(!numMatch) return;
+        const qNum = parseInt(numMatch[0]);
+
+        // tìm card câu hỏi
+        const card = [...document.querySelectorAll('.card')]
+            .find(c => c.querySelector('.question-text')?.innerText.includes(`Câu ${qNum}.`));
+
+        if(!card) return;
+
+        // ===== ẢNH ĐÁP ÁN a/b/c/d =====
+        if(/\b[a-d]\b/.test(alt)){
+            const letter = alt.match(/[abcd]/)[0];
+            const idx = {a:0,b:1,c:2,d:3}[letter];
+            const opt = card.querySelectorAll('.option')[idx];
+            if(opt){
+                const clone = img.cloneNode(true);
+                opt.appendChild(clone);
+            }
+        }
+        // ===== ẢNH CÂU HỎI =====
+        else{
+            const clone = img.cloneNode(true);
+            clone.className = 'question-image';
+            card.insertBefore(clone, card.querySelector('#opt-'+([...card.parentNode.children].indexOf(card))));
+        }
     });
 }
 
-function loadShort(){
-    shortDiv.innerHTML="";
-    shortQs.forEach(s=>{
-        shortDiv.innerHTML+=`
-        <div class="short-question" data-answer="${s[1]}">
-            <b>${s[0]}</b>
-            <div class="short-inputs">
-                <input type="number"><input type="number">
-                <input type="number"><input type="number">
-            </div>
-            <div class="short-result"></div>
-        </div>`;
-    });
-}
+        function loadEssay(){
+            essayDiv.innerHTML = '';
+            essayQs.forEach(e => {
+                essayDiv.innerHTML += `
+                <div class="essay-question">
+                    <b>${e.q}</b>
+                    <textarea placeholder="Nhập đáp án của bạn..."></textarea>
+                    <div class="essay-answer"><b>Đáp án mẫu:</b><br>${e.a}</div>
+                </div>`;
+            });
+        }
 
-function loadEssay(){
-    essayDiv.innerHTML="";
-    essayQs.forEach(e=>{
-        essayDiv.innerHTML+=`
-        <div class="essay-question">
-            <b>${e.q}</b>
-            <textarea></textarea>
-            <div class="essay-answer"><b>Đáp án:</b><br>${e.a}</div>
-        </div>`;
-    });
-}
+        submit.onclick = () => {
+            if(confirm('Bạn chắc chắn muốn nộp bài và chấm điểm toàn bộ?')){
+                let score = 0;
+                const totalMC = questions.length;
 
-submit.onclick=()=>{
-    let score=0;
-    document.querySelectorAll(".card").forEach((card,qi)=>{
-        const sel=card.querySelector(`input[name="q${qi}"]:checked`);
-        card.querySelectorAll(".option").forEach(o=>{
-            const i=o.querySelector("input");
-            if(i.value==="c") o.classList.add("correct-answer");
-            if(sel===i && i.value!=="c") o.classList.add("wrong-answer");
-            i.disabled=true;
-        });
-        if(sel && sel.value==="c") score++;
-    });
+                // Chấm trắc nghiệm
+                document.querySelectorAll('.card').forEach((card, qi) => {
+                    const sel = card.querySelector(`input[name="q${qi}"]:checked`);
+                    card.querySelectorAll('.option').forEach(opt => {
+                        const inp = opt.querySelector('input');
+                        if(inp.value === 'c') opt.classList.add('correct-answer');
+                        if(sel && sel === inp && inp.value !== 'c') opt.classList.add('wrong-answer');
+                    });
+                    if(sel && sel.value === 'c') score++;
+                    card.querySelectorAll('input').forEach(i => i.disabled = true);
+                });
 
-    document.querySelectorAll(".essay-answer").forEach(a=>a.style.display="block");
+                // Chấm trả lời ngắn
+                document.querySelectorAll('.short-question').forEach(q => {
+                    const ans = q.dataset.answer;
+                    const inputs = q.querySelectorAll('input');
+                    let ok = false;
+                    inputs.forEach(i => {
+                        if(i.value !== "" && parseInt(i.value) === parseInt(ans)) ok = true;
+                    });
+                    const r = q.querySelector('.short-result');
+                    if(ok){
+                        r.textContent = "✓ Đúng";
+                        r.style.color = "#34c759";
+                    } else {
+                        r.textContent = "✗ Sai (Đáp án: " + ans + ")";
+                        r.style.color = "#ff3b30";
+                    }
+                    inputs.forEach(i => i.disabled = true);
+                });
 
-    result.innerHTML=`Bạn đúng <span style="color:#34c759">${score}</span> / ${questions.length} câu`;
-    result.classList.remove("hidden");
-    submit.classList.add("hidden");
-    restart.classList.remove("hidden");
-};
+                // Hiện đáp án tự luận
+                document.querySelectorAll('.essay-answer').forEach(a => {
+                    a.style.display = "block";
+                });
 
-restart.onclick=()=>location.reload();
+                result.innerHTML = `Kết quả trắc nghiệm: Bạn đúng <span style="color:#34c759">${score}</span> / ${totalMC} câu!<br>Phần trả lời ngắn và tự luận đã được chấm/hiện đáp án.`;
+                result.classList.remove('hidden');
+                submit.classList.add('hidden');
+                restart.classList.remove('hidden');
+            }
+        };
 
-loadQuiz();
+        restart.onclick = () => location.reload();
+
+        // Khởi tạo toàn bộ
+        loadQuiz();
 loadShort();
 loadEssay();
-</script>
+applyImagesByAlt();
+
+    </script>
 </body>
 </html>
-
