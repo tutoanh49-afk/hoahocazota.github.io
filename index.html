@@ -3,102 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Ôn Tập Hóa Học 10 - Cuối Kỳ I</title>
+    <title>ÔN TẬP HÓA HỌC 10 - CUỐI KỲ I</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { primary: '#1C3FAA', success: '#91C714', danger: '#D32929' } } }
+        }
+    </script>
     <style>
-        .option{
-    display:flex;
-    align-items:flex-start;
-    gap:12px;
-    box-sizing:border-box;
-}
-
-.option input{
-    flex-shrink:0;
-    margin-top:4px;
-}
-
-.option img{
-    max-width:120px;
-    display:block;
-    margin-top:6px;
-}
-
-        body { font-family: -apple-system, sans-serif; background:#f5f5f7; margin:0; padding:0; }
-        .container { padding:20px; padding-top:env(safe-area-inset-top); padding-bottom:env(safe-area-inset-bottom); }
-        h1 { text-align:center; color:#007aff; font-size:24px; margin:20px 0 40px; }
-        .card { background:white; border-radius:16px; padding:20px; margin-bottom:20px; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
-        .question-num { font-weight:600; color:#007aff; font-size:18px; margin-bottom:10px; }
-        .question-text { font-size:17px; margin-bottom:15px; line-height:1.4; }
-        .option { background:#f2f2f7; border-radius:12px; padding:16px; margin:10px 0; font-size:17px; }
-        .option input { margin-right:12px; transform:scale(1.3); }
-        .btn { display:block; width:90%; max-width:400px; margin:40px auto; padding:16px; background:#007aff; color:white; border:none; border-radius:12px; font-size:18px; font-weight:600; }
-        .hidden { display:none; }
-        .correct-answer { background:#d4edda !important; }
-        .wrong-answer { background:#ffd1d1 !important; }
-        #result { text-align:center; font-size:24px; font-weight:700; margin:40px 0; }
-
-        /* Phần III - Trả lời ngắn */
+        body { font-family: 'Roboto', system-ui, sans-serif; background: #f1f5f8; margin: 0; }
+        .container { max-width: 900px; margin: 0 auto; padding: 16px; }
+        .card { background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; }
+        .header { background: linear-gradient(135deg, #1C3FAA, #284EB2); color: white; padding: 32px 24px; text-align: center; }
+        .mode-card { padding: 40px 24px; text-align: center; }
+        .mode-btn { 
+            display: block; width: 100%; max-width: 450px; margin: 20px auto; 
+            padding: 24px; border-radius: 16px; font-size: 18px; font-weight: 600; 
+            background: white; border: 2px solid #dee7ef; color: #1C3FAA; cursor: pointer; 
+            transition: all 0.3s;
+        }
+        .mode-btn:hover { border-color: #1C3FAA; transform: translateY(-4px); box-shadow: 0 12px 24px rgba(28,63,170,0.2); }
+        .question-card { padding: 32px 24px; }
+        .question-num { font-size: 24px; font-weight: 700; color: #1C3FAA; margin-bottom: 16px; text-align: center; }
+        .question-text { font-size: 18px; line-height: 1.6; margin-bottom: 24px; }
+        .question-image { max-width: 100%; border-radius: 12px; margin: 16px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .option { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; font-size: 17px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; margin-bottom: 12px; }
+        .option input { margin-right: 16px; transform: scale(1.5); accent-color: #1C3FAA; }
+        .option:hover { background: #eef2ff; border-color: #1C3FAA; }
+        .option.selected { background: #e0e7ff; border-color: #1C3FAA; }
+        .option.correct { background: #d4edda; border-color: #91C714; }
+        .option.wrong { background: #fce8e8; border-color: #D32929; }
+        .submit-btn { width: 100%; padding: 18px; background: #1C3FAA; color: white; border: none; border-radius: 12px; font-size: 19px; font-weight: 600; margin-top: 32px; cursor: pointer; box-shadow: 0 6px 16px rgba(28,63,170,0.3); }
+        .feedback { margin-top: 24px; padding: 24px; border-radius: 12px; font-size: 20px; text-align: center; font-weight: 700; }
+        .feedback.correct { background: #d4edda; color: #155724; }
+        .feedback.wrong { background: #fce8e8; color: #721c24; }
+        .progress { margin: 24px 0; text-align: center; font-size: 18px; color: #1C3FAA; font-weight: 600; }
+        .hidden { display: none; }
+        .streak { font-size: 32px; font-weight: bold; color: #1C3FAA; }
         .short-question { background:#fff; border-radius:12px; padding:16px; margin:15px 0; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-        .short-question b { display:block; margin-bottom:10px; font-size:17px; color:#007aff; }
+        .short-question b { display:block; margin-bottom:10px; font-size:17px; color:#1C3FAA; }
         .short-inputs { display:flex; flex-wrap:wrap; gap:10px; }
         .short-inputs input { width:60px; padding:10px; font-size:16px; text-align:center; border-radius:8px; border:1px solid #ccc; }
         .short-result { margin-top:12px; font-weight:bold; font-size:16px; }
-
-        /* Phần III - Tự luận */
         .essay-question { background:#fff; border-radius:12px; padding:16px; margin:15px 0; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-        .essay-question b { display:block; margin-bottom:10px; font-size:17px; color:#007aff; }
+        .essay-question b { display:block; margin-bottom:10px; font-size:17px; color:#1C3FAA; }
         textarea { width:100%; height:140px; padding:12px; font-size:16px; border-radius:12px; border:1px solid #ccc; box-sizing:border-box; margin-top:8px; }
-        .essay-answer { display:none; margin-top:12px; background:#e8f4ff; padding:12px; border-left:4px solid #007aff; border-radius:8px; font-size:16px; }
-        .essay-answer b { color:#007aff; }
-        .question-image{
-            width:100%;
-            max-width:420px;
-            margin:12px auto 18px;
-            display:block;
-            border-radius:12px;
-            box-shadow:0 2px 8px rgba(0,0,0,.15);
-            }
-
+        .essay-answer { display:none; margin-top:12px; background:#e8f4ff; padding:12px; border-left:4px solid #1C3FAA; border-radius:8px; font-size:16px; }
+        .essay-answer b { color:#1C3FAA; }
     </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- ===== IMAGE BANK (IMGBB) ===== -->
-<div id="image-bank" style="display:none">
+    <div class="container pt-8">
+        <div class="card header mb-8">
+            <h1>ÔN TẬP HÓA HỌC LỚP 10</h1>
+            <small>Cuối Kỳ I - 2025</small>
+        </div>
 
-<!-- Ảnh câu hỏi -->
-<img src="https://i.ibb.co/Sw4C8SD3/31.png" alt="31">
-<img src="https://i.ibb.co/zgrWsK1/32.png" alt="32">
-<img src="https://i.ibb.co/pjSn6hht/41.jpg" alt="41">
-<img src="https://i.ibb.co/wjtR0Fm/42.png" alt="42">
+        <!-- Chọn chế độ -->
+        <div id="mode-selection" class="card mode-card">
+            <h2 class="text-2xl font-semibold text-primary mb-8">Chọn chế độ làm bài</h2>
+            <button class="mode-btn" id="mode-exam">
+                <div class="text-2xl mb-4">📝</div>
+                <div class="text-xl font-semibold">Chế độ thi</div>
+                <p class="text-gray-600 mt-4">Làm hết đề (trắc nghiệm + trả lời ngắn + tự luận)</p>
+            </button>
+            <button class="mode-btn" id="mode-challenge">
+                <div class="text-2xl mb-4">⚔️</div>
+                <div class="text-xl font-semibold">Chế độ thử thách</div>
+                <p class="text-gray-600 mt-4">Trắc nghiệm + trả lời ngắn, sai là làm lại từ đầu</p>
+            </button>
+        </div>
 
-<!-- Ảnh đáp án câu 34 -->
-<img src="https://i.ibb.co/7JrkCdBQ/34-a.png" alt="34 a">
-<img src="https://i.ibb.co/Nnt0Hp6Q/34-b.png" alt="34 b">
-<img src="https://i.ibb.co/nqVH6j2P/34-c.png" alt="34 c">
-<img src="https://i.ibb.co/DfgbYYDf/34-d.png" alt="34 d">
+        <!-- Khu vực làm bài -->
+        <div id="quiz-area" class="hidden">
+            <!-- Chế độ thi -->
+            <div id="exam-mode" class="hidden">
+                <div id="exam-questions"></div>
+                <h2 class="text-2xl font-bold text-primary mt-12 mb-6">PHẦN TRẢ LỜI NGẮN</h2>
+                <div id="exam-short"></div>
+                <h2 class="text-2xl font-bold text-primary mt-12 mb-6">PHẦN TỰ LUẬN</h2>
+                <div id="exam-essay"></div>
+                <button class="submit-btn" id="submit-exam">Nộp Bài & Chấm Điểm</button>
+                <div id="exam-result" class="hidden card mt-8 text-center py-12">
+                    <h2 class="text-3xl font-bold text-primary mb-6">Kết quả</h2>
+                    <div id="exam-result-text" class="text-4xl font-bold mb-8"></div>
+                    <button class="submit-btn mt-8" id="back-to-mode">Quay lại chọn chế độ</button>
+                </div>
+            </div>
 
-</div>
-<!-- ============================== -->
+            <!-- Chế độ thử thách -->
+            <div id="challenge-mode" class="hidden">
+                <div class="card question-card">
+                    <div class="progress" id="challenge-progress"></div>
+                    <div class="text-center mb-6">
+                        <div class="streak" id="current-streak">0</div>
+                        <div class="text-lg text-gray-600">Chuỗi đúng liên tiếp</div>
+                    </div>
+                    <div id="current-question"></div>
+                    <div id="current-short" class="hidden"></div>
+                    <button class="submit-btn hidden" id="submit-current">Nộp Câu Này</button>
+                    <button class="submit-btn hidden" id="next-question">Câu Tiếp Theo</button>
+                    <div id="challenge-feedback" class="feedback hidden"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    <div class="container">
-        <h1>ĐỀ CƯƠNG ÔN TẬP HÓA HỌC LỚP 10<br><small>Cuối Kỳ I - 2025</small></h1>
-
-        <!-- PHẦN I & II: Trắc nghiệm (đã có sẵn) -->
-        <div id="quiz-form"></div>
-
-        <!-- PHẦN III – TRẢ LỜI NGẮN -->
-        <h1 style="margin-top:60px;">PHẦN III – TRẢ LỜI NGẮN</h1>
-        <div id="short"></div>
-
-        <!-- PHẦN III – TỰ LUẬN -->
-        <h1 style="margin-top:60px;">PHẦN III – TỰ LUẬN</h1>
-        <div id="essay"></div>
-
-        <button class="btn" id="submit-btn">Nộp Bài & Chấm Điểm</button>
-        <button class="btn hidden" id="restart-btn">Làm Lại Toàn Bộ</button>
-        <div id="result" class="hidden"></div>
+    <!-- Image bank -->
+    <div id="image-bank" style="display:none">
+        <img src="https://i.ibb.co/Sw4C8SD3/31.png" alt="31">
+        <img src="https://i.ibb.co/zgrWsK1/32.png" alt="32">
+        <img src="https://i.ibb.co/pjSn6hht/41.jpg" alt="41">
+        <img src="https://i.ibb.co/wjtR0Fm/42.png" alt="42">
+        <img src="https://i.ibb.co/7JrkCdBQ/34-a.png" alt="34 a">
+        <img src="https://i.ibb.co/Nnt0Hp6Q/34-b.png" alt="34 b">
+        <img src="https://i.ibb.co/nqVH6j2P/34-c.png" alt="34 c">
+        <img src="https://i.ibb.co/DfgbYYDf/34-d.png" alt="34 d">
     </div>
 
     <script>
@@ -130,14 +151,14 @@
             {q:"Câu 24. Liên kết ion là loại liên kết hóa học được hình thành nhờ lực hút tĩnh điện giữa các phần tử nào sau đây ?",o:["A. Cation và anion","B. Các anion","C. Cation và electron tự do","D. Electron và hạt nhân nguyên tử"],c:0},
             {q:"Câu 25. Biểu diễn sự tạo thành ion nào sau đây là đúng ?",o:["A. Na + 1e → Na⁺","B. Cl₂ → 2Cl⁻ + 2e","C. O₂ + 2e → 2O²⁻","D. Al → Al³⁺ + 3e"],c:3},
             {q:"Câu 26. Số electron và số proton trong ion là",o:["A. 11 electron và 11 proton","B. 10 electron và 11 proton","C. 11 electron và 10 proton","D. 11 electron và 12 proton"],c:1},
-            {q:"Câu 27. Cặp nguyên tử nào sau đây không tạo hợp chất dạng (X2)+Y2-(X2 MŨ + và Y2-) hoặc X2+Y2-(X2+ và Y2-) ",o:["A. Na và O","B. K và S","C. Ca và O","D. Ca và Cl"],c:2},
+            {q:"Câu 27. Cặp nguyên tử nào sau đây không tạo hợp chất dạng hoặc",o:["A. Na và O","B. K và S","C. Ca và O","D. Ca và Cl"],c:2},
             {q:"Câu 28. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – s ?",o:["A. H₂","B. Cl₂","C. NH₃","D. HCl"],c:0},
             {q:"Câu 29. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – p ?",o:["A. H₂","B. Cl₂","C. NH₃","D. O₂"],c:3},
             {q:"Câu 30. Phát biểu nào sau đây không đúng về liên kết có trong phân tử HCl ?",o:["A. Giữa nguyên tử H và Cl có một liên kết đơn","B. Các electron tham gia liên kết đồng thời bị hút về phía hai hạt nhân","C. Phân tử có một momen lưỡng cực","D. Một electron của nguyên tử hydrogen và một electron của nguyên tử chlorine được góp chung và cách đều hai nguyên tử"],c:3},
             {q:"Câu 31. Cho chất hữu cơ A có công thức cấu tạo sau: Số liên kết σ trong phân tử A là",o:["A. 6","B. 8","C. 9","D. 11"],c:3},
             {q:"Câu 32. Cho hai chất hữu cơ X, Y có công thức cấu tạo sau: [hình vẽ] Nhận xét nào sau đây là đúng ?",o:["A. X và Y có số liên kết σ và số liên kết π bằng nhau","B. X có số liên kết σ và số liên kết π nhiều hơn Y","C. X có số liên kết σ nhiều hơn, nhưng số liên kết π ít hơn Y","D. X có số liên kết σ ít hơn, nhưng số liên kết π nhiều hơn Y"],c:2},
             {q:"Câu 33. Trong phân tử ammonia (NH₃), số cặp electron chung giữa nguyên tử nitrogen và các nguyên tử hydrogen là",o:["A. 3","B. 2","C. 1","D. 4"],c:0},
-            {q:"Câu 34. Biết nguyên tử chlorine có 7 electron hóa trị, công thức electron của phân tử chlorine là",o:[""],c:0}, // Giả sử đáp án A
+            {q:"Câu 34. Biết nguyên tử chlorine có 7 electron hóa trị, công thức electron của phân tử chlorine là",o:["A. Cl : Cl","B. Cl – Cl","C. Cl = Cl","D. Cl ≡ Cl"],c:0,img:"34 a",img2:"34 b",img3:"34 c",img4:"34 d"}, // Giả sử đáp án A
             {q:"Câu 35. Chất nào sau đây không có liên kết cộng hóa trị phân cực ?",o:["A. O₂","B. CO₂","C. NH₃","D. HCl"],c:0},
             {q:"Câu 36. Liên kết hydrogen là loại liên kết hóa học được hình thành giữa các nguyên tử nào sau đây ?",o:["A. Phi kim và hydrogen trong hai phân tử khác nhau","B. Phi kim và hydrogen trong cùng một phân tử","C. Phi kim có độ âm điện lớn và nguyên tử hydrogen","D. F, O, N… có độ âm điện lớn, đồng thời có cặp electron hóa trị chưa liên kết và nguyên tử hydrogen linh động"],c:3},
             {q:"Câu 37. Tương tác van der Waals được hình thành do",o:["A. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các nguyên tử","B. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các phân tử","C. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các nguyên tử hay phân tử","D. Lực hút tĩnh điện giữa các phân tử phân cực"],c:2},
@@ -170,157 +191,247 @@
             {q:"Câu 4. Trong đời sống muối ăn (NaCl) và các gia vị, phụ gia C5H8NO4Na: (bột ngọt) C7H5O2Na (Chất bảo quản thực phẩm) đều có chứa ion sodium. Hiệp hội Tim mạch Hoa Kỳ khuyến cáo lượng ion sodium mỗi ngày được nạp vào cơ thể mỗi người cần thấp hơn 2300mg để bảo vệ tim mạch và thận. Nếu trung bình mỗi ngày một người dùng tổng cộng 5 gam muối ăn; 0,5 gam bột ngọt; 0,05 gam chất bảo quản thì lượng sodium tiêu thụ thấp hơn mức cho phép là bao nhiêu mg ?",a:`NaCl (5g): ≈ 1966 mg Na<br>Bột ngọt (0,5g): ≈ 68 mg Na<br>Chất bảo quản (0,05g): ≈ 8 mg Na<br>Tổng ≈ 2042 mg → thấp hơn 2300 mg là ≈ 258 mg`}
         ];
 
-        const form = document.getElementById('quiz-form');
-        const shortDiv = document.getElementById('short');
-        const essayDiv = document.getElementById('essay');
-        const submit = document.getElementById('submit-btn');
-        const restart = document.getElementById('restart-btn');
-        const result = document.getElementById('result');
+        let allQuestions = [];
+        let currentIndex = 0;
+        let streak = 0;
+        let score = 0;
 
-        function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+        function shuffle(array) {
+            const copy = [...array];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
 
-        function loadQuiz(){
-            form.innerHTML='';
-            shuffle(questions).forEach((q,qi)=>{
-                const card=document.createElement('div'); card.className='card';
-                card.innerHTML = `
-                        <div class="question-num">Câu ${qi+1}</div>
-                        <div class="question-text">${q.q}</div>
-                        ${q.img ? `<img src="${q.img}" class="question-image">` : ``}
-                        <div id="opt-${qi}"></div>
-                            `;
+        function applyImages() {
+            const bank = document.getElementById('image-bank');
+            const imgs = bank.querySelectorAll('img');
+            imgs.forEach(img => {
+                const alt = img.alt.trim().toLowerCase();
+                const match = alt.match(/\d+/);
+                if (!match) return;
+                const qNum = parseInt(match[0]);
 
-                form.appendChild(card);
-                const opts=document.getElementById(`opt-${qi}`);
-                shuffle(q.o.map((t,i)=>({t,c:i===q.c}))).forEach(op=>{
-                    const lab=document.createElement('label'); lab.className='option';
-                    lab.innerHTML=`<input type="radio" name="q${qi}" value="${op.c?'c':'w'}"> ${op.t}`;
-                    opts.appendChild(lab);
+                // Tìm card chứa câu hỏi có số qNum
+                const cards = document.querySelectorAll('.card.question-card');
+                let targetCard = null;
+                cards.forEach(card => {
+                    const text = card.querySelector('.question-text')?.textContent || '';
+                    if (text.includes(`Câu ${qNum}`) || text.includes(`Câu ${qNum}.`)) {
+                        targetCard = card;
+                    }
                 });
+                if (!targetCard) return;
+
+                const clone = img.cloneNode(true);
+                clone.className = 'question-image';
+
+                // Nếu là ảnh đáp án (có a b c d trong alt)
+                if (/[abcd]/.test(alt)) {
+                    const letter = alt.match(/[abcd]/)[0];
+                    const idx = {a:0, b:1, c:2, d:3}[letter];
+                    const opts = targetCard.querySelectorAll('.option');
+                    if (opts[idx]) {
+                        opts[idx].appendChild(clone);
+                    }
+                } else {
+                    // Ảnh câu hỏi
+                    const optsDiv = targetCard.querySelector('.options') || targetCard.querySelector('#challenge-options');
+                    targetCard.insertBefore(clone, optsDiv);
+                }
             });
         }
 
-        function loadShort(){
-            shortDiv.innerHTML = '';
+        document.getElementById('mode-exam').addEventListener('click', startExamMode);
+        document.getElementById('mode-challenge').addEventListener('click', startChallengeMode);
+
+        function startExamMode() {
+            allQuestions = shuffle(questions);
+            document.getElementById('mode-selection').classList.add('hidden');
+            document.getElementById('quiz-area').classList.remove('hidden');
+            document.getElementById('exam-mode').classList.remove('hidden');
+            document.getElementById('challenge-mode').classList.add('hidden');
+            loadExamQuestions();
+            loadExamShort();
+            loadExamEssay();
+            applyImages();
+        }
+
+        function loadExamQuestions() {
+            const container = document.getElementById('exam-questions');
+            container.innerHTML = '';
+            allQuestions.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'card question-card mb-8';
+                let html = `<div class="question-num">Câu ${idx + 1}</div><div class="question-text">${q.q}</div>`;
+                html += '<div class="options flex flex-col gap-4 mt-6">';
+                const shuffled = shuffle(q.o.map((t, i) => ({t, correct: i === q.c})));
+                shuffled.forEach(op => {
+                    html += `<label class="option"><input type="radio" name="q${idx}" value="${op.correct}"><span>${op.t}</span></label>`;
+                });
+                html += '</div>';
+                card.innerHTML = html;
+                container.appendChild(card);
+            });
+        }
+
+        function loadExamShort() {
+            const container = document.getElementById('exam-short');
+            container.innerHTML = '';
             shortQs.forEach((sq, i) => {
-                shortDiv.innerHTML += `
+                container.innerHTML += `
                 <div class="short-question" data-answer="${sq[1]}">
                     <b>${sq[0]}</b>
                     <div class="short-inputs">
-                        <input type="number">
-                        <input type="number">
-                        <input type="number">
-                        <input type="number">
+                        <input type="number"><input type="number"><input type="number"><input type="number">
                     </div>
                     <div class="short-result"></div>
                 </div>`;
             });
         }
-function applyImagesByAlt(){
-    const imgs = document.querySelectorAll("#image-bank img");
 
-    imgs.forEach(img=>{
-        const alt = img.alt.toLowerCase().trim();
-
-        // lấy số câu
-        const numMatch = alt.match(/\d+/);
-        if(!numMatch) return;
-        const qNum = parseInt(numMatch[0]);
-
-        // tìm card câu hỏi
-        const card = [...document.querySelectorAll('.card')]
-            .find(c => c.querySelector('.question-text')?.innerText.includes(`Câu ${qNum}.`));
-
-        if(!card) return;
-
-        // ===== ẢNH ĐÁP ÁN a/b/c/d =====
-        if(/\b[a-d]\b/.test(alt)){
-            const letter = alt.match(/[abcd]/)[0];
-            const idx = {a:0,b:1,c:2,d:3}[letter];
-            const opt = card.querySelectorAll('.option')[idx];
-            if(opt){
-                const clone = img.cloneNode(true);
-                opt.appendChild(clone);
-            }
-        }
-        // ===== ẢNH CÂU HỎI =====
-        else{
-            const clone = img.cloneNode(true);
-            clone.className = 'question-image';
-            card.insertBefore(clone, card.querySelector('#opt-'+([...card.parentNode.children].indexOf(card))));
-        }
-    });
-}
-
-        function loadEssay(){
-            essayDiv.innerHTML = '';
+        function loadExamEssay() {
+            const container = document.getElementById('exam-essay');
+            container.innerHTML = '';
             essayQs.forEach(e => {
-                essayDiv.innerHTML += `
+                container.innerHTML += `
                 <div class="essay-question">
                     <b>${e.q}</b>
-                    <textarea placeholder="Nhập đáp án của bạn..."></textarea>
+                    <textarea placeholder="Nhập đáp án..."></textarea>
                     <div class="essay-answer"><b>Đáp án mẫu:</b><br>${e.a}</div>
                 </div>`;
             });
         }
 
-        submit.onclick = () => {
-            if(confirm('Bạn chắc chắn muốn nộp bài và chấm điểm toàn bộ?')){
-                let score = 0;
-                const totalMC = questions.length;
-
-                // Chấm trắc nghiệm
-                document.querySelectorAll('.card').forEach((card, qi) => {
-                    const sel = card.querySelector(`input[name="q${qi}"]:checked`);
-                    card.querySelectorAll('.option').forEach(opt => {
-                        const inp = opt.querySelector('input');
-                        if(inp.value === 'c') opt.classList.add('correct-answer');
-                        if(sel && sel === inp && inp.value !== 'c') opt.classList.add('wrong-answer');
-                    });
-                    if(sel && sel.value === 'c') score++;
-                    card.querySelectorAll('input').forEach(i => i.disabled = true);
+        document.getElementById('submit-exam').addEventListener('click', () => {
+            if (!confirm('Nộp bài?')) return;
+            score = 0;
+            allQuestions.forEach((q, idx) => {
+                const selected = document.querySelector(`input[name="q${idx}"]:checked`);
+                document.querySelectorAll(`input[name="q${idx}"]`).forEach(inp => {
+                    const label = inp.parentElement;
+                    if (inp.value === 'true') label.classList.add('correct');
+                    if (inp.checked && inp.value !== 'true') label.classList.add('wrong');
+                    inp.disabled = true;
                 });
+                if (selected && selected.value === 'true') score++;
+            });
+            // Chấm trả lời ngắn
+            document.querySelectorAll('.short-question').forEach(q => {
+                const ans = q.dataset.answer;
+                const inputs = q.querySelectorAll('input');
+                let ok = false;
+                inputs.forEach(i => { if (i.value && parseInt(i.value) === parseInt(ans)) ok = true; });
+                const r = q.querySelector('.short-result');
+                r.textContent = ok ? "✓ Đúng" : `✗ Sai (Đáp án: ${ans})`;
+                r.style.color = ok ? "#34c759" : "#ff3b30";
+                inputs.forEach(i => i.disabled = true);
+            });
+            // Hiện đáp án tự luận
+            document.querySelectorAll('.essay-answer').forEach(a => a.style.display = "block");
+            document.getElementById('exam-result-text').innerHTML = `Trắc nghiệm: <span class="text-success">${score}</span> / ${allQuestions.length} câu`;
+            document.getElementById('exam-result').classList.remove('hidden');
+            document.getElementById('submit-exam').classList.add('hidden');
+        });
 
-                // Chấm trả lời ngắn
-                document.querySelectorAll('.short-question').forEach(q => {
-                    const ans = q.dataset.answer;
-                    const inputs = q.querySelectorAll('input');
-                    let ok = false;
-                    inputs.forEach(i => {
-                        if(i.value !== "" && parseInt(i.value) === parseInt(ans)) ok = true;
-                    });
-                    const r = q.querySelector('.short-result');
-                    if(ok){
-                        r.textContent = "✓ Đúng";
-                        r.style.color = "#34c759";
-                    } else {
-                        r.textContent = "✗ Sai (Đáp án: " + ans + ")";
-                        r.style.color = "#ff3b30";
-                    }
-                    inputs.forEach(i => i.disabled = true);
+        function startChallengeMode() {
+            allQuestions = shuffle(questions);
+            currentIndex = 0;
+            streak = 0;
+            document.getElementById('current-streak').textContent = '0';
+            document.getElementById('mode-selection').classList.add('hidden');
+            document.getElementById('quiz-area').classList.remove('hidden');
+            document.getElementById('challenge-mode').classList.remove('hidden');
+            document.getElementById('exam-mode').classList.add('hidden');
+            showChallengeItem();
+            applyImages();
+        }
+
+        function showChallengeItem() {
+            const totalItems = allQuestions.length + shortQs.length;
+            document.getElementById('challenge-progress').innerHTML = `<div class="text-center text-lg font-medium text-primary mb-6">Câu ${currentIndex + 1} / ${totalItems}</div>`;
+
+            if (currentIndex < allQuestions.length) {
+                // Trắc nghiệm
+                const q = allQuestions[currentIndex];
+                let html = `<div class="question-num">Câu ${currentIndex + 1}</div><div class="question-text">${q.q}</div>`;
+                html += '<div class="options flex flex-col gap-4 mt-8" id="challenge-options"></div>';
+                document.getElementById('current-question').innerHTML = html;
+                document.getElementById('current-short').classList.add('hidden');
+
+                const optsDiv = document.getElementById('challenge-options');
+                optsDiv.innerHTML = '';
+                const shuffled = shuffle(q.o.map((t, i) => ({t, correct: i === q.c})));
+                shuffled.forEach(op => {
+                    const label = document.createElement('label');
+                    label.className = 'option';
+                    label.innerHTML = `<input type="radio" name="challenge-q" value="${op.correct}"><span>${op.t}</span>`;
+                    label.onclick = () => document.querySelectorAll('#challenge-options .option').forEach(o => o.classList.remove('selected')); label.classList.add('selected');
+                    optsDiv.appendChild(label);
                 });
-
-                // Hiện đáp án tự luận
-                document.querySelectorAll('.essay-answer').forEach(a => {
-                    a.style.display = "block";
-                });
-
-                result.innerHTML = `Kết quả trắc nghiệm: Bạn đúng <span style="color:#34c759">${score}</span> / ${totalMC} câu!<br>Phần trả lời ngắn và tự luận đã được chấm/hiện đáp án.`;
-                result.classList.remove('hidden');
-                submit.classList.add('hidden');
-                restart.classList.remove('hidden');
+            } else {
+                // Trả lời ngắn
+                const sqIndex = currentIndex - allQuestions.length;
+                const sq = shortQs[sqIndex];
+                document.getElementById('current-question').innerHTML = `<div class="question-num">Câu ${currentIndex + 1}</div><div class="question-text">${sq[0]}</div>`;
+                document.getElementById('current-short').innerHTML = `
+                    <div class="short-inputs">
+                        <input type="number"><input type="number"><input type="number"><input type="number">
+                    </div>`;
+                document.getElementById('current-short').dataset.answer = sq[1];
+                document.getElementById('current-short').classList.remove('hidden');
             }
-        };
 
-        restart.onclick = () => location.reload();
+            document.getElementById('submit-current').classList.remove('hidden');
+            document.getElementById('next-question').classList.add('hidden');
+            document.getElementById('challenge-feedback').classList.add('hidden');
+        }
 
-        // Khởi tạo toàn bộ
-        loadQuiz();
-loadShort();
-loadEssay();
-applyImagesByAlt();
+        document.getElementById('submit-current').addEventListener('click', () => {
+            let isCorrect = false;
 
+            if (currentIndex < allQuestions.length) {
+                const selected = document.querySelector('input[name="challenge-q"]:checked');
+                if (!selected) return alert('Chọn đáp án!');
+                isCorrect = selected.value === 'true';
+            } else {
+                const ans = document.getElementById('current-short').dataset.answer;
+                const inputs = document.getElementById('current-short').querySelectorAll('input');
+                inputs.forEach(i => { if (i.value && parseInt(i.value) === parseInt(ans)) isCorrect = true; });
+            }
+
+            if (isCorrect) {
+                streak++;
+                document.getElementById('current-streak').textContent = streak;
+                document.getElementById('challenge-feedback').className = 'feedback correct';
+                document.getElementById('challenge-feedback').textContent = 'Đúng!';
+                document.getElementById('challenge-feedback').classList.remove('hidden');
+                document.getElementById('next-question').classList.remove('hidden');
+            } else {
+                document.getElementById('challenge-feedback').className = 'feedback wrong';
+                document.getElementById('challenge-feedback').textContent = 'Sai! Làm lại từ đầu...';
+                document.getElementById('challenge-feedback').classList.remove('hidden');
+                setTimeout(() => location.reload(), 3000);
+            }
+
+            document.getElementById('submit-current').classList.add('hidden');
+        });
+
+        document.getElementById('next-question').addEventListener('click', () => {
+            currentIndex++;
+            const totalItems = allQuestions.length + shortQs.length;
+            if (currentIndex >= totalItems) {
+                document.getElementById('exam-result-text').innerHTML = `HOÀN THÀNH THỬ THÁCH!<br>Chuỗi đúng: <span class="text-success">${streak}</span> / ${totalItems}`;
+                document.getElementById('exam-result').classList.remove('hidden');
+                document.getElementById('challenge-mode').classList.add('hidden');
+            } else {
+                showChallengeItem();
+            }
+        });
+
+        document.getElementById('back-to-mode').addEventListener('click', () => location.reload());
     </script>
 </body>
 </html>
-
