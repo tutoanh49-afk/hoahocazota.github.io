@@ -7,98 +7,664 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            theme: { extend: { colors: { primary: '#1C3FAA', success: '#91C714', danger: '#D32929' } } }
+            theme: { 
+                extend: { 
+                    colors: { 
+                        primary: '#1C3FAA', 
+                        success: '#91C714', 
+                        danger: '#D32929',
+                        pink: '#EC4899',
+                        green: '#10B981',
+                        blue: '#3B82F6',
+                        red: '#EF4444',
+                        purple: '#8B5CF6'
+                    } 
+                }
+            }
         }
     </script>
     <style>
-        body { font-family: 'Roboto', system-ui, sans-serif; background: #f1f5f8; margin: 0; }
-        .container { max-width: 900px; margin: 0 auto; padding: 16px; }
-        .card { background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; }
-        .header { background: linear-gradient(135deg, #1C3FAA, #284EB2); color: white; padding: 32px 24px; text-align: center; }
-        .mode-card { padding: 40px 24px; text-align: center; }
-        .mode-btn { 
-            display: block; width: 100%; max-width: 450px; margin: 20px auto; 
-            padding: 24px; border-radius: 16px; font-size: 18px; font-weight: 600; 
-            background: white; border: 2px solid #dee7ef; color: #1C3FAA; cursor: pointer; 
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        :root {
+            --primary-color: #1C3FAA;
+            --success-color: #91C714;
+            --danger-color: #D32929;
+            --bg-color: #f8fafc;
+            --card-bg: white;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+        }
+        
+        [data-theme="pink"] {
+            --primary-color: #EC4899;
+            --success-color: #10B981;
+            --danger-color: #EF4444;
+        }
+        
+        [data-theme="green"] {
+            --primary-color: #10B981;
+            --success-color: #EC4899;
+            --danger-color: #EF4444;
+        }
+        
+        [data-theme="blue"] {
+            --primary-color: #3B82F6;
+            --success-color: #10B981;
+            --danger-color: #EF4444;
+        }
+        
+        [data-theme="red"] {
+            --primary-color: #EF4444;
+            --success-color: #10B981;
+            --danger-color: #EC4899;
+        }
+        
+        [data-theme="purple"] {
+            --primary-color: #8B5CF6;
+            --success-color: #10B981;
+            --danger-color: #EF4444;
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg-color); 
+            margin: 0; 
+            overflow-x: hidden;
+            position: relative;
+            touch-action: manipulation; /* Tối ưu touch cho mobile */
+            -webkit-tap-highlight-color: transparent; /* Xóa highlight tap trên iOS/Android */
+        }
+        
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(-45deg, var(--primary-color), var(--primary-color)80%, #ffffff20);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 50%, rgba(120,119,198,0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255,119,198,0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 80%, rgba(120,219,255,0.3) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+        
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding: 16px; 
+            position: relative;
+            z-index: 1;
+        }
+        
+        .card { 
+            background: var(--card-bg); 
+            border-radius: 20px; 
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1), 0 0 0 1px rgba(255,255,255,0.2); 
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(255,255,255,0.3);
+        }
+        
+        .header { 
+            background: linear-gradient(135deg, var(--primary-color), rgba(28,63,170,0.8)); 
+            color: white; 
+            padding: 40px 24px; 
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .header .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: url('https://i.ibb.co/HfM9CsK/V-1.png') no-repeat center/cover;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .mode-card { 
+            padding: 50px 24px; 
+            text-align: center;
+            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7));
+            backdrop-filter: blur(20px);
+        }
+        
+        .mode-btn {
+            display: block; 
+            width: 100%; 
+            max-width: 450px; 
+            margin: 20px auto;
+            padding: 24px; 
+            border-radius: 20px; 
+            font-size: 18px; 
+            font-weight: 600;
+            background: rgba(255,255,255,0.95); 
+            border: 2px solid rgba(28,63,170,0.2); 
+            color: var(--primary-color); 
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mode-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .mode-btn:hover { 
+            border-color: var(--primary-color); 
+            transform: translateY(-8px) scale(1.02); 
+            box-shadow: 0 20px 40px rgba(28,63,170,0.2); 
+        }
+        
+        .mode-btn:hover::before {
+            left: 100%;
+        }
+        
+        .question-card { 
+            padding: 40px 24px; 
+            background: rgba(255,255,255,0.95);
+        }
+        
+        .question-num { 
+            font-size: 28px; 
+            font-weight: 800; 
+            color: var(--primary-color); 
+            margin-bottom: 20px; 
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .question-text { 
+            font-size: 18px; 
+            line-height: 1.7; 
+            margin-bottom: 30px; 
+            color: var(--text-primary);
+        }
+        
+        .question-image { 
+            max-width: 100%; 
+            border-radius: 16px; 
+            margin: 20px 0; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        
+        .option { 
+            background: rgba(248,250,252,0.8); 
+            border: 2px solid rgba(226,232,240,0.8); 
+            border-radius: 16px; 
+            padding: 24px; 
+            font-size: 17px; 
+            cursor: pointer; 
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+            display: flex; 
+            align-items: center; 
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--primary-color);
+            transform: scaleY(0);
+            transition: transform 0.3s;
+        }
+        
+        .option input { 
+            margin-right: 16px; 
+            transform: scale(1.3); 
+            accent-color: var(--primary-color); 
+        }
+        
+        .option:hover { 
+            background: rgba(238,242,255,0.8); 
+            border-color: var(--primary-color); 
+            transform: translateX(8px);
+        }
+        
+        .option:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .option.selected { 
+            background: rgba(224,231,255,0.9); 
+            border-color: var(--primary-color); 
+        }
+        
+        .option.correct { 
+            background: rgba(212,237,218,0.9); 
+            border-color: var(--success-color); 
+            transform: scale(1.02);
+        }
+        
+        .option.wrong { 
+            background: rgba(252,232,232,0.9); 
+            border-color: var(--danger-color); 
+        }
+        
+        .submit-btn { 
+            width: 100%; 
+            padding: 20px; 
+            background: linear-gradient(135deg, var(--primary-color), rgba(28,63,170,0.8)); 
+            color: white; 
+            border: none; 
+            border-radius: 16px; 
+            font-size: 19px; 
+            font-weight: 600; 
+            margin-top: 32px; 
+            cursor: pointer; 
+            box-shadow: 0 10px 30px rgba(28,63,170,0.3); 
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(28,63,170,0.4);
+        }
+        
+        .feedback { 
+            margin-top: 24px; 
+            padding: 24px; 
+            border-radius: 16px; 
+            font-size: 20px; 
+            text-align: center; 
+            font-weight: 700; 
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        
+        .feedback.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .feedback.correct { 
+            background: rgba(212,237,218,0.9); 
+            color: #155724; 
+            border: 1px solid var(--success-color);
+        }
+        
+        .feedback.wrong { 
+            background: rgba(252,232,232,0.9); 
+            color: #721c24; 
+            border: 1px solid var(--danger-color);
+        }
+        
+        .progress { 
+            margin: 24px 0; 
+            text-align: center; 
+            font-size: 18px; 
+            color: var(--primary-color); 
+            font-weight: 600; 
+        }
+        
+        .hidden { display: none; }
+        .streak { 
+            font-size: 36px; 
+            font-weight: 800; 
+            background: linear-gradient(135deg, var(--primary-color), #60a5fa); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+            background-clip: text;
+        }
+        
+        .short-question { 
+            background: rgba(255,255,255,0.95); 
+            border-radius: 16px; 
+            padding: 20px; 
+            margin: 20px 0; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08); 
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        
+        .short-question b { 
+            display: block; 
+            margin-bottom: 12px; 
+            font-size: 17px; 
+            color: var(--primary-color); 
+            font-weight: 600;
+        }
+        
+        .short-inputs { 
+            display: flex; 
+            flex-wrap: wrap; 
+            gap: 12px; 
+        }
+        
+        .short-inputs input { 
+            width: 60px; 
+            padding: 12px; 
+            font-size: 16px; 
+            text-align: center; 
+            border-radius: 10px; 
+            border: 2px solid rgba(226,232,240,0.8); 
+            transition: border-color 0.3s;
+        }
+        
+        .short-inputs input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(28,63,170,0.1);
+        }
+        
+        .short-result { 
+            margin-top: 12px; 
+            font-weight: 600; 
+            font-size: 16px; 
+        }
+        
+        .essay-question { 
+            background: rgba(255,255,255,0.95); 
+            border-radius: 16px; 
+            padding: 20px; 
+            margin: 20px 0; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08); 
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        
+        .essay-question b { 
+            display: block; 
+            margin-bottom: 12px; 
+            font-size: 17px; 
+            color: var(--primary-color); 
+            font-weight: 600;
+        }
+        
+        textarea { 
+            width: 100%; 
+            height: 160px; 
+            padding: 16px; 
+            font-size: 16px; 
+            border-radius: 12px; 
+            border: 2px solid rgba(226,232,240,0.8); 
+            box-sizing: border-box; 
+            margin-top: 8px;
+            resize: vertical;
+            transition: border-color 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(28,63,170,0.1);
+        }
+        
+        .essay-answer { 
+            display: none; 
+            margin-top: 16px; 
+            background: rgba(232,244,255,0.8); 
+            padding: 16px; 
+            border-left: 4px solid var(--primary-color); 
+            border-radius: 12px; 
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .essay-answer b { 
+            color: var(--primary-color); 
+            font-weight: 600;
+        }
+        
+        /* Settings Button */
+        .settings-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 12px;
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .settings-btn:hover {
+            transform: rotate(90deg);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        .settings-icon {
+            width: 24px;
+            height: 24px;
+            background: url('https://cdn-icons-png.flaticon.com/512/2040/2040504.png') no-repeat center;
+            background-size: contain;
+        }
+        
+        /* Setting Overlay */
+        .setting-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .setting-overlay.show {
+            display: flex;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Theme Selector */
+        .theme-selector {
+            background: rgba(255,255,255,0.95);
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.5);
+            text-align: center;
+        }
+        
+        .theme-selector h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+        
+        .theme-btn {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            margin: 0 6px;
+            cursor: pointer;
+            border: 2px solid transparent;
             transition: all 0.3s;
         }
-        .mode-btn:hover { border-color: #1C3FAA; transform: translateY(-4px); box-shadow: 0 12px 24px rgba(28,63,170,0.2); }
-        .question-card { padding: 32px 24px; }
-        .question-num { font-size: 24px; font-weight: 700; color: #1C3FAA; margin-bottom: 16px; text-align: center; }
-        .question-text { font-size: 18px; line-height: 1.6; margin-bottom: 24px; }
-        .question-image { max-width: 100%; border-radius: 12px; margin: 16px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .option { background: #f8fafc; border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; font-size: 17px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; margin-bottom: 12px; }
-        .option input { margin-right: 16px; transform: scale(1.5); accent-color: #1C3FAA; }
-        .option:hover { background: #eef2ff; border-color: #1C3FAA; }
-        .option.selected { background: #e0e7ff; border-color: #1C3FAA; }
-        .option.correct { background: #d4edda; border-color: #91C714; }
-        .option.wrong { background: #fce8e8; border-color: #D32929; }
-        .submit-btn { width: 100%; padding: 18px; background: #1C3FAA; color: white; border: none; border-radius: 12px; font-size: 19px; font-weight: 600; margin-top: 32px; cursor: pointer; box-shadow: 0 6px 16px rgba(28,63,170,0.3); }
-        .feedback { margin-top: 24px; padding: 24px; border-radius: 12px; font-size: 20px; text-align: center; font-weight: 700; }
-        .feedback.correct { background: #d4edda; color: #155724; }
-        .feedback.wrong { background: #fce8e8; color: #721c24; }
-        .progress { margin: 24px 0; text-align: center; font-size: 18px; color: #1C3FAA; font-weight: 600; }
-        .hidden { display: none; }
-        .streak { font-size: 32px; font-weight: bold; color: #1C3FAA; }
-        .short-question { background:#fff; border-radius:12px; padding:16px; margin:15px 0; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-        .short-question b { display:block; margin-bottom:10px; font-size:17px; color:#1C3FAA; }
-        .short-inputs { display:flex; flex-wrap:wrap; gap:10px; }
-        .short-inputs input { width:60px; padding:10px; font-size:16px; text-align:center; border-radius:8px; border:1px solid #ccc; }
-        .short-result { margin-top:12px; font-weight:bold; font-size:16px; }
-        .essay-question { background:#fff; border-radius:12px; padding:16px; margin:15px 0; box-shadow:0 2px 8px rgba(0,0,0,0.1); }
-        .essay-question b { display:block; margin-bottom:10px; font-size:17px; color:#1C3FAA; }
-        textarea { width:100%; height:140px; padding:12px; font-size:16px; border-radius:12px; border:1px solid #ccc; box-sizing:border-box; margin-top:8px; }
-        .essay-answer { display:none; margin-top:12px; background:#e8f4ff; padding:12px; border-left:4px solid #1C3FAA; border-radius:8px; font-size:16px; }
-        .essay-answer b { color:#1C3FAA; }
+        
+        .theme-btn.active {
+            border-color: var(--primary-color);
+            transform: scale(1.15);
+        }
+        
+        .theme-btn:hover {
+            transform: scale(1.15);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2rem; }
+            .question-num { font-size: 24px; }
+            .mode-card { padding: 30px 16px; }
+            .question-card { padding: 24px 16px; }
+            .short-inputs { justify-content: center; }
+            .theme-selector { 
+                padding: 20px; 
+            }
+            .settings-btn { right: 10px; }
+            .option { padding: 16px; font-size: 15px; }
+            .submit-btn { font-size: 17px; padding: 16px; }
+            .textarea { height: 120px; font-size: 14px; }
+        }
+        
+        @media (max-width: 480px) {
+            .container { padding: 8px; }
+            .mode-btn { padding: 20px; font-size: 16px; }
+            .header { padding: 30px 16px; }
+            .short-inputs input { width: 50px; padding: 8px; }
+            .theme-btn { width: 30px; height: 30px; margin: 0 4px; }
+        }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+    
+    <!-- Settings Button -->
+    <div class="settings-btn" id="settings-btn">
+        <div class="settings-icon"></div>
+    </div>
+    
+    <!-- Setting Overlay -->
+    <div class="setting-overlay" id="setting-overlay">
+        <div class="theme-selector">
+            <h3>Chọn Màu Chủ Đạo</h3>
+            <div class="theme-btn active" style="background: #1C3FAA;" data-theme="default" title="Xanh Dương"></div>
+            <div class="theme-btn" style="background: #EC4899;" data-theme="pink" title="Hồng"></div>
+            <div class="theme-btn" style="background: #10B981;" data-theme="green" title="Xanh Lá"></div>
+            <div class="theme-btn" style="background: #3B82F6;" data-theme="blue" title="Xanh Dương Nhạt"></div>
+            <div class="theme-btn" style="background: #EF4444;" data-theme="red" title="Đỏ"></div>
+            <div class="theme-btn" style="background: #8B5CF6;" data-theme="purple" title="Tím"></div>
+        </div>
+    </div>
+    
     <div class="container pt-8">
         <div class="card header mb-8">
+            <div class="avatar">
+    <img src="https://i.ibb.co/HfM9CsKV/V-1.png" alt="Avatar" class="w-full h-full object-cover rounded-full">
+</div>
             <h1>ÔN TẬP HÓA HỌC LỚP 10</h1>
-            <small>Cuối Kỳ I - 2025</small>
+            <small class="text-white/80">Cuối Kỳ I - 2025</small>
         </div>
-
         <!-- Chọn chế độ -->
         <div id="mode-selection" class="card mode-card">
-            <h2 class="text-2xl font-semibold text-primary mb-8">Chọn chế độ làm bài</h2>
+            <h2 class="text-3xl font-bold text-[var(--primary-color)] mb-8">Chọn chế độ làm bài</h2>
             <button class="mode-btn" id="mode-exam">
-                <div class="text-2xl mb-4">📝</div>
-                <div class="text-xl font-semibold">Chế độ thi</div>
-                <p class="text-gray-600 mt-4">Làm hết đề (trắc nghiệm + trả lời ngắn + tự luận)</p>
+                <div class="text-3xl mb-4">📝</div>
+                <div class="text-xl font-bold">Chế độ thi</div>
+                <p class="text-[var(--text-secondary)] mt-4">Làm hết đề (trắc nghiệm + trả lời ngắn + tự luận)</p>
             </button>
             <button class="mode-btn" id="mode-challenge">
-                <div class="text-2xl mb-4">⚔️</div>
-                <div class="text-xl font-semibold">Chế độ thử thách</div>
-                <p class="text-gray-600 mt-4">Trắc nghiệm + trả lời ngắn, sai là làm lại từ đầu</p>
+                <div class="text-3xl mb-4">⚔️</div>
+                <div class="text-xl font-bold">Chế độ thử thách</div>
+                <p class="text-[var(--text-secondary)] mt-4">Trắc nghiệm + trả lời ngắn, sai là làm lại từ đầu</p>
             </button>
         </div>
-
         <!-- Khu vực làm bài -->
         <div id="quiz-area" class="hidden">
             <!-- Chế độ thi -->
             <div id="exam-mode" class="hidden">
                 <div id="exam-questions"></div>
-                <h2 class="text-2xl font-bold text-primary mt-12 mb-6">PHẦN TRẢ LỜI NGẮN</h2>
+                <h2 class="text-3xl font-bold text-[var(--primary-color)] mt-12 mb-6">PHẦN TRẢ LỜI NGẮN</h2>
                 <div id="exam-short"></div>
-                <h2 class="text-2xl font-bold text-primary mt-12 mb-6">PHẦN TỰ LUẬN</h2>
+                <h2 class="text-3xl font-bold text-[var(--primary-color)] mt-12 mb-6">PHẦN TỰ LUẬN</h2>
                 <div id="exam-essay"></div>
                 <button class="submit-btn" id="submit-exam">Nộp Bài & Chấm Điểm</button>
                 <div id="exam-result" class="hidden card mt-8 text-center py-12">
-                    <h2 class="text-3xl font-bold text-primary mb-6">Kết quả</h2>
+                    <h2 class="text-3xl font-bold text-[var(--primary-color)] mb-6">Kết quả</h2>
                     <div id="exam-result-text" class="text-4xl font-bold mb-8"></div>
                     <button class="submit-btn mt-8" id="back-to-mode">Quay lại chọn chế độ</button>
                 </div>
             </div>
-
             <!-- Chế độ thử thách -->
             <div id="challenge-mode" class="hidden">
                 <div class="card question-card">
                     <div class="progress" id="challenge-progress"></div>
                     <div class="text-center mb-6">
                         <div class="streak" id="current-streak">0</div>
-                        <div class="text-lg text-gray-600">Chuỗi đúng liên tiếp</div>
+                        <div class="text-lg text-[var(--text-secondary)]">Chuỗi đúng liên tiếp</div>
                     </div>
                     <div id="current-question"></div>
                     <div id="current-short" class="hidden"></div>
@@ -109,7 +675,6 @@
             </div>
         </div>
     </div>
-
     <!-- Image bank -->
     <div id="image-bank" style="display:none">
         <img src="https://i.ibb.co/Sw4C8SD3/31.png" alt="31">
@@ -121,8 +686,80 @@
         <img src="https://i.ibb.co/nqVH6j2P/34-c.png" alt="34 c">
         <img src="https://i.ibb.co/DfgbYYDf/34-d.png" alt="34 d">
     </div>
-
     <script>
+        // Discord Webhook URL - Thay bằng webhook thực của bạn
+        const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1452163646766579753/zbvqQ_sMaQmpCxcftbdAGw5LQ-o_ihmSC98HyTqmtmpJCNE7Qmu8sWADU_BsoCwMsyYu'; // Placeholder, thay bằng URL thực
+
+        // Gửi dữ liệu đến Discord
+        // Gửi dữ liệu đến Discord (có thêm IP)
+async function sendToDiscord(data) {
+    try {
+        const ip = await getPublicIP(); // Lấy IP công khai
+        const mode = data.mode === 'Exam' ? 'Bài Thi' : 'Thi đấu';
+        const chuoi = data.mode === 'Exam' ? data.score : data.streak;
+        const time = new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+
+        await fetch(DISCORD_WEBHOOK_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                content: null,
+                embeds: [{
+                    title: "📊 Kết quả làm bài Hóa học 10",
+                    color: mode === 'Bài Thi' ? 3447003 : 1752220, // Màu xanh dương / vàng
+                    fields: [
+                        { name: "Môn", value: "#hoahoc", inline: true },
+                        { name: "Mode", value: mode, inline: true },
+                        { name: "Chuỗi / Điểm", value: `${chuoi}`, inline: true },
+                        { name: "Thời Gian", value: time, inline: false },
+                        { name: "IP Người Làm", value: `\`\`\`${ip}\`\`\``, inline: false }
+                    ],
+                    footer: {
+                        text: "Ôn tập Hóa học 10 - Cuối Kỳ I 2025"
+                    },
+                    timestamp: new Date().toISOString()
+                }]
+            })
+        });
+    } catch (error) {
+        console.error('Lỗi gửi Discord:', error);
+    }
+}
+
+        // Theme Management
+        const themes = ['default', 'pink', 'green', 'blue', 'red', 'purple'];
+        let currentTheme = 'default';
+        
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const theme = btn.dataset.theme;
+                document.documentElement.setAttribute('data-theme', theme);
+                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentTheme = theme;
+                // Update CSS variables
+                document.documentElement.style.setProperty('--primary-color', getComputedStyle(btn).backgroundColor);
+            });
+        });
+        
+        // Toggle Setting Overlay with Settings Button
+        const settingsBtn = document.getElementById('settings-btn');
+        const settingOverlay = document.getElementById('setting-overlay');
+        
+        settingsBtn.addEventListener('click', () => {
+            settingOverlay.classList.toggle('show');
+        });
+
+        // Close overlay when clicking outside
+        settingOverlay.addEventListener('click', (e) => {
+            if (!document.querySelector('.theme-selector').contains(e.target)) {
+                settingOverlay.classList.remove('show');
+            }
+        });
+
+        // Rest of the script remains the same...
 const questions = [
     {q:"Câu 1. Các nguyên tố xếp ở chu kì 6 có số lớp electron trong nguyên tử là",o:["A. 5","B. 6","C. 3","D. 7"],c:1},
     {q:"Câu 2. Trong bảng tuần hoàn các nguyên tố, số chu kì nhỏ và chu kì lớn là",o:["A. 3 và 3","B. 4 và 4","C. 4 và 3","D. 3 và 4"],c:3},
@@ -234,12 +871,11 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
 Đáp số: khoảng 854 g`
     }
 ];
-
+        
         let allQuestions = [];
         let currentIndex = 0;
         let streak = 0;
         let score = 0;
-
         function shuffle(array) {
             const copy = [...array];
             for (let i = copy.length - 1; i > 0; i--) {
@@ -248,7 +884,6 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
             }
             return copy;
         }
-
         function applyImages() {
             const bank = document.getElementById('image-bank');
             const imgs = bank.querySelectorAll('img');
@@ -257,7 +892,6 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
                 const match = alt.match(/\d+/);
                 if (!match) return;
                 const qNum = parseInt(match[0]);
-
                 // Tìm card chứa câu hỏi có số qNum
                 const cards = document.querySelectorAll('.card.question-card');
                 let targetCard = null;
@@ -268,10 +902,8 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
                     }
                 });
                 if (!targetCard) return;
-
                 const clone = img.cloneNode(true);
                 clone.className = 'question-image';
-
                 // Nếu là ảnh đáp án (có a b c d trong alt)
                 if (/[abcd]/.test(alt)) {
                     const letter = alt.match(/[abcd]/)[0];
@@ -287,10 +919,8 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
                 }
             });
         }
-
         document.getElementById('mode-exam').addEventListener('click', startExamMode);
         document.getElementById('mode-challenge').addEventListener('click', startChallengeMode);
-
         function startExamMode() {
             allQuestions = shuffle(questions);
             document.getElementById('mode-selection').classList.add('hidden');
@@ -302,7 +932,17 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
             loadExamEssay();
             applyImages();
         }
-
+        // Hàm lấy IP công khai của người dùng
+async function getPublicIP() {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip || 'Không xác định';
+    } catch (error) {
+        console.error('Không lấy được IP:', error);
+        return 'Không xác định';
+    }
+}
         function loadExamQuestions() {
             const container = document.getElementById('exam-questions');
             container.innerHTML = '';
@@ -320,7 +960,6 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
                 container.appendChild(card);
             });
         }
-
         function loadExamShort() {
             const container = document.getElementById('exam-short');
             container.innerHTML = '';
@@ -335,7 +974,6 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
                 </div>`;
             });
         }
-
         function loadExamEssay() {
             const container = document.getElementById('exam-essay');
             container.innerHTML = '';
@@ -348,8 +986,7 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
                 </div>`;
             });
         }
-
-        document.getElementById('submit-exam').addEventListener('click', () => {
+        document.getElementById('submit-exam').addEventListener('click', async () => {
             if (!confirm('Nộp bài?')) return;
             score = 0;
             allQuestions.forEach((q, idx) => {
@@ -378,8 +1015,10 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
             document.getElementById('exam-result-text').innerHTML = `Trắc nghiệm: <span class="text-success">${score}</span> / ${allQuestions.length} câu`;
             document.getElementById('exam-result').classList.remove('hidden');
             document.getElementById('submit-exam').classList.add('hidden');
+            
+            // Gửi đến Discord
+            await sendToDiscord({ mode: 'Exam', score: score });
         });
-
         function startChallengeMode() {
             allQuestions = shuffle(questions);
             currentIndex = 0;
@@ -392,11 +1031,9 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
             showChallengeItem();
             applyImages();
         }
-
         function showChallengeItem() {
             const totalItems = allQuestions.length + shortQs.length;
             document.getElementById('challenge-progress').innerHTML = `<div class="text-center text-lg font-medium text-primary mb-6">Câu ${currentIndex + 1} / ${totalItems}</div>`;
-
             if (currentIndex < allQuestions.length) {
                 // Trắc nghiệm
                 const q = allQuestions[currentIndex];
@@ -404,7 +1041,6 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
                 html += '<div class="options flex flex-col gap-4 mt-8" id="challenge-options"></div>';
                 document.getElementById('current-question').innerHTML = html;
                 document.getElementById('current-short').classList.add('hidden');
-
                 const optsDiv = document.getElementById('challenge-options');
                 optsDiv.innerHTML = '';
                 const shuffled = shuffle(q.o.map((t, i) => ({t, correct: i === q.c})));
@@ -412,7 +1048,8 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
                     const label = document.createElement('label');
                     label.className = 'option';
                     label.innerHTML = `<input type="radio" name="challenge-q" value="${op.correct}"><span>${op.t}</span>`;
-                    label.onclick = () => document.querySelectorAll('#challenge-options .option').forEach(o => o.classList.remove('selected')); label.classList.add('selected');
+                    label.onclick = () => document.querySelectorAll('#challenge-options .option').forEach(o => o.classList.remove('selected')); 
+                    label.classList.add('selected');
                     optsDiv.appendChild(label);
                 });
             } else {
@@ -427,49 +1064,98 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
                 document.getElementById('current-short').dataset.answer = sq[1];
                 document.getElementById('current-short').classList.remove('hidden');
             }
-
             document.getElementById('submit-current').classList.remove('hidden');
             document.getElementById('next-question').classList.add('hidden');
             document.getElementById('challenge-feedback').classList.add('hidden');
+            document.getElementById('challenge-feedback').classList.remove('show');
         }
 
         document.getElementById('submit-current').addEventListener('click', () => {
             let isCorrect = false;
 
             if (currentIndex < allQuestions.length) {
+                // Trắc nghiệm
                 const selected = document.querySelector('input[name="challenge-q"]:checked');
-                if (!selected) return alert('Chọn đáp án!');
+                if (!selected) return alert('Vui lòng chọn một đáp án!');
                 isCorrect = selected.value === 'true';
             } else {
+                // Trả lời ngắn
                 const ans = document.getElementById('current-short').dataset.answer;
                 const inputs = document.getElementById('current-short').querySelectorAll('input');
-                inputs.forEach(i => { if (i.value && parseInt(i.value) === parseInt(ans)) isCorrect = true; });
+                inputs.forEach(i => {
+                    if (i.value && parseInt(i.value) === parseInt(ans)) isCorrect = true;
+                });
             }
+
+            const feedback = document.getElementById('challenge-feedback');
 
             if (isCorrect) {
                 streak++;
                 document.getElementById('current-streak').textContent = streak;
-                document.getElementById('challenge-feedback').className = 'feedback correct';
-                document.getElementById('challenge-feedback').textContent = 'Đúng!';
-                document.getElementById('challenge-feedback').classList.remove('hidden');
-                document.getElementById('next-question').classList.remove('hidden');
+
+                feedback.innerHTML = `
+                    <strong class="text-2xl">XUẤT SẮC! 🎉</strong><br><br>
+                    Bạn thật sự rất giỏi!<br>
+                    Tiếp tục giữ phong độ nhé 🔥`;
+                feedback.className = 'feedback correct show';
             } else {
-                document.getElementById('challenge-feedback').className = 'feedback wrong';
-                document.getElementById('challenge-feedback').textContent = 'Sai! Làm lại từ đầu...';
-                document.getElementById('challenge-feedback').classList.remove('hidden');
-                setTimeout(() => location.reload(), 3000);
+                // Khi SAI: hiện đáp án đúng + lời khích lệ + đếm ngược 5 giây
+                let correctAnswerText = '';
+
+                if (currentIndex < allQuestions.length) {
+                    // Trắc nghiệm
+                    const q = allQuestions[currentIndex];
+                    const correctLetter = ['A', 'B', 'C', 'D'][q.c];
+                    correctAnswerText = `<strong>${correctLetter}. ${q.o[q.c]}</strong>`;
+                } else {
+                    // Trả lời ngắn
+                    const ans = document.getElementById('current-short').dataset.answer;
+                    correctAnswerText = `<strong>${ans}</strong>`;
+                }
+
+                feedback.innerHTML = `
+                    <strong class="text-2xl">Ôi không! Sai rồi 😢</strong><br><br>
+                    Đáp án đúng là: ${correctAnswerText}<br><br>
+                    Đừng nản nhé! Bạn đang tiến bộ rất nhiều rồi đấy 💪<br>
+                    Hãy tập trung và thử lại nào!<br><br>
+                    Làm lại từ đầu sau <span id="countdown" class="text-3xl font-bold text-red-600">30</span> giây...`;
+
+                feedback.className = 'feedback wrong show';
+
+                // Đếm ngược 5 giây
+                let countdown = 30;
+                const countdownEl = document.getElementById('countdown');
+                const timer = setInterval(() => {
+                    countdownEl.textContent = countdown;
+                    countdown--;
+                    if (countdown < 0) {
+                        clearInterval(timer);
+                        location.reload();
+                    }
+                }, 1000);
             }
 
+            feedback.classList.remove('hidden');
             document.getElementById('submit-current').classList.add('hidden');
+
+            if (isCorrect) {
+                document.getElementById('next-question').classList.remove('hidden');
+            }
         });
 
-        document.getElementById('next-question').addEventListener('click', () => {
+        document.getElementById('next-question').addEventListener('click', async () => {
             currentIndex++;
             const totalItems = allQuestions.length + shortQs.length;
             if (currentIndex >= totalItems) {
-                document.getElementById('exam-result-text').innerHTML = `HOÀN THÀNH THỬ THÁCH!<br>Chuỗi đúng: <span class="text-success">${streak}</span> / ${totalItems}`;
+                document.getElementById('exam-result-text').innerHTML = `
+                    <strong class="text-4xl">HOÀN THÀNH THỬ THÁCH! 🏆</strong><br><br>
+                    Chuỗi đúng liên tiếp: <span class="text-success text-5xl font-bold">${streak}</span> / ${totalItems}<br><br>
+                    Bạn đã làm rất tốt! Hãy tiếp tục cố gắng nhé 🌟`;
                 document.getElementById('exam-result').classList.remove('hidden');
                 document.getElementById('challenge-mode').classList.add('hidden');
+
+                // Gửi kết quả đến Discord
+                await sendToDiscord({ mode: 'Challenge', score: streak });
             } else {
                 showChallengeItem();
             }
@@ -479,4 +1165,3 @@ Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
     </script>
 </body>
 </html>
-
