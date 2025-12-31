@@ -123,73 +123,117 @@
     </div>
 
     <script>
-        const questions = [
-            // PHẦN I - TRẮC NGHIỆM NHIỀU LỰA CHỌN (giữ nguyên như cũ)
-            {q:"Câu 1. Các nguyên tố xếp ở chu kì 6 có số lớp electron trong nguyên tử là",o:["A. 5","B. 6","C. 3","D. 7"],c:1},
-            {q:"Câu 2. Trong bảng tuần hoàn các nguyên tố, số chu kì nhỏ và chu kì lớn là",o:["A. 3 và 3","B. 4 và 4","C. 4 và 3","D. 3 và 4"],c:2},
-            {q:"Câu 3. Số nguyên tố trong chu kì 3 và chu kì 5 là",o:["A. 18 và 8","B. 8 và 10","C. 8 và 18","D. 6 và 8"],c:2},
-            {q:"Câu 4. Bảng tuần hoàn hiện nay có số chu kì và số hàng ngang lần lượt là",o:["A. 7 và 9","B. 7 và 8","C. 7 và 7","D. 6 và 7"],c:0},
-            {q:"Câu 5. Các nguyên tố trong cùng một chu kì có đặc điểm gì chung.",o:["A. Số electron lớp ngoài cùng bằng nhau","B. Số electron hoá trị bằng nhau","C. Tất cả đúng","D. Số lớp electron bằng nhau"],c:3},
-            {q:"Câu 6. Các nguyên tố trong cùng một nhóm A (trừ He) có đặc điểm gì chung?",o:["A. Số electron hoá trị bằng nhau","B. Số electron lớp ngoài cùng bằng nhau","C. Có tính chất hoá học giống nhau","D. Tất cả đúng"],c:3},
-            {q:"Câu 7. Nguyên tử của những nguyên tố trong một nhóm đều có cùng số :",o:["A. Proton","B. Neutron","C. Lớp electron","D. Electron hóa trị"],c:3},
-            {q:"Câu 8. Các nguyên tố hoá học trong bảng tuần hoàn được sắp xếp theo nguyên tắc :",o:["A. Các nguyên tố có cùng số lớp electron trong nguyên tử được xếp cùng một hàng","B. Các nguyên tố có cùng số electron hoá trị trong nguyên tử được xếp thành một cột","C. Các nguyên.tố được sắp theo theo chiều tăng dần của điện tích hạt nhân nguyên tử","D. Cả A, B, C đúng"],c:3},
-            {q:"Câu 9. Số các nguyên tố trong các chu kì 1,2,3 và 4 lần lượt bằng:",o:["A. 1,8,18,32","B. 2,8,8,18","C. 2,8,18,18","D. 2,8,18,32"],c:3},
-            {q:"Câu 10. Cấu hình electron của nguyên tử oxygen là 1s²2s²2p⁴. Vị trí của oxygen trong bảng tuần hoàn là",o:["A. ô số 6, chu kì 2, nhóm VIA","B. ô số 6, chu kì 3, nhóm VIB","C. ô số 8, chu kì 2, nhóm VIA","D. ô số 8, chu kì 2, nhóm VIB"],c:2},
-            {q:"Câu 11. Cấu hình electron của nguyên tử sắt là 1s²2s²2p⁶3s²3p⁶3d⁶4s². Vị trí của sắt trong bảng tuần hoàn là",o:["A. ô số 26, chu kì 3, nhóm VIIIB","B. ô số 26, chu kì 3, nhóm VIIIA","C. ô số 26, chu kì 4, nhóm VIIIA","D. ô số 26, chu kì 4, nhóm VIIIB"],c:3},
-            {q:"Câu 12. Cho cấu hình electron các nguyên tố: Na: [Ne]3s¹, Cr: [Ar]3d⁵4s¹, Br: [Ar]3d¹⁰4s²4p⁵, F:1s²2s²2p⁵, Cu:[Ar]3d¹⁰4s¹. Số nguyên tố thuộc khối s, p, d lần lượt là",o:["A. 2, 1, 2","B. 1, 2, 2","C. 1, 1, 3","D. Không xác định được"],c:1},
-            {q:"Câu 13. Nhóm nguyên tố nào mà hợp chất oxide có hóa trị cao nhất có công thức chung là MO ?",o:["A. Nhóm IA","B. Nhóm IIA","C. Nhóm IVA","D. Nhóm IIIA"],c:1},
-            {q:"Câu 14. M là nguyên tố nhóm IA, oxide cao nhất của nó có công thức hóa học là :",o:["A. MO","B. MO₂","C. M₂O","D. M₂O₇"],c:2},
-            {q:"Câu 15. Nguyên tử của các nguyên tố kim loại kiềm có cấu hình electron lớp ngoài cùng là",o:["A. ns²np²","B. ns²","C. ns²np⁵","D. ns¹"],c:3},
-            {q:"Câu 16. Trong một chu kì, theo chiều số hiệu nguyên tử tăng dần:",o:["A. Tính kim loại của các nguyên tố tăng dần","B. Tính kim loại và tính phi kim của nguyên tố giảm dần","C. Tính phi kim của các nguyên tố tăng dần","D. Tính kim loại và tính phi kim của các nguyên tố tăng dần"],c:2},
-            {q:"Câu 17. Trong cùng một chu kì, theo chiều từ trái qua phải, hóa trị cao nhất của nguyên tố đối với oxygen",o:["A. Giảm dần","B. Tăng dần","C. Không đổi","D. Biến đổi không có quy luật"],c:1},
-            {q:"Câu 18. Giá trị độ âm điện giảm dần theo thứ tự từ trái sang phải của các nguyên tố của chu kì 2 là :",o:["A. F , O , N , C , B , Be , Li","B. Li , B , Be , N , C , F , O","C. Be , Li , C , B , O , N , F","D. N , O , F , Li , Be , B , C"],c:0},
-            {q:"Câu 19. Cấu hình electron hóa trị của nguyên tử các nguyên tố nhóm IIA trong bảng tuần hoàn đều là",o:["A. np²","B. ns²","C. ns²np²","D. ns²np²"],c:1},
-            {q:"Câu 20. Một nguyên tố R có cấu hình electron: 1s²2s²2p³, công thức oxide cao nhất và hợp chất khí với hydrogen lần lượt là:",o:["A. R₂O₅, RH₅","B. R₂O₃, RH","C. R₂O₇, RH","D. R₂O₅, RH₃"],c:3},
-            {q:"Câu 21. Trong các chất dưới đây, chất nào có tính acid yếu nhất?",o:["A. H₂SO₄","B. HClO₄","C. H₃PO₄","D. H₂SiO₃"],c:3},
-            {q:"Câu 22. Dãy gồm các chất có tính base tăng dần là",o:["A. Al(OH)₃, Mg(OH)₂, NaOH","B. NaOH, Mg(OH)₂, Al(OH)₃","C. Mg(OH)₂, Al(OH)₃, NaOH","D. Al(OH)₃, NaOH, Mg(OH)₂"],c:2},
-            {q:"Câu 23. Liên kết ion được tạo thành giữa hai nguyên tử bằng",o:["A. Một hay nhiều cặp electron dùng chung","B. Một hay nhiều cặp electron dùng chung chỉ do một nguyên tử đóng góp","C. Lực hút tĩnh điện giữa các ion mang điện tích trái dấu","D. Một hay nhiều cặp electron dùng chung và các cặp electron này lệch về nguyên tử có độ âm điện lớn hơn"],c:2},
-            {q:"Câu 24. Liên kết ion là loại liên kết hóa học được hình thành nhờ lực hút tĩnh điện giữa các phần tử nào sau đây ?",o:["A. Cation và anion","B. Các anion","C. Cation và electron tự do","D. Electron và hạt nhân nguyên tử"],c:0},
-            {q:"Câu 25. Biểu diễn sự tạo thành ion nào sau đây là đúng ?",o:["A. Na + 1e → Na⁺","B. Cl₂ → 2Cl⁻ + 2e","C. O₂ + 2e → 2O²⁻","D. Al → Al³⁺ + 3e"],c:3},
-            {q:"Câu 26. Số electron và số proton trong ion là",o:["A. 11 electron và 11 proton","B. 10 electron và 11 proton","C. 11 electron và 10 proton","D. 11 electron và 12 proton"],c:1},
-            {q:"Câu 27. Cặp nguyên tử nào sau đây không tạo hợp chất dạng hoặc",o:["A. Na và O","B. K và S","C. Ca và O","D. Ca và Cl"],c:2},
-            {q:"Câu 28. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – s ?",o:["A. H₂","B. Cl₂","C. NH₃","D. HCl"],c:0},
-            {q:"Câu 29. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – p ?",o:["A. H₂","B. Cl₂","C. NH₃","D. O₂"],c:3},
-            {q:"Câu 30. Phát biểu nào sau đây không đúng về liên kết có trong phân tử HCl ?",o:["A. Giữa nguyên tử H và Cl có một liên kết đơn","B. Các electron tham gia liên kết đồng thời bị hút về phía hai hạt nhân","C. Phân tử có một momen lưỡng cực","D. Một electron của nguyên tử hydrogen và một electron của nguyên tử chlorine được góp chung và cách đều hai nguyên tử"],c:3},
-            {q:"Câu 31. Cho chất hữu cơ A có công thức cấu tạo sau: Số liên kết σ trong phân tử A là",o:["A. 6","B. 8","C. 9","D. 11"],c:3},
-            {q:"Câu 32. Cho hai chất hữu cơ X, Y có công thức cấu tạo sau: [hình vẽ] Nhận xét nào sau đây là đúng ?",o:["A. X và Y có số liên kết σ và số liên kết π bằng nhau","B. X có số liên kết σ và số liên kết π nhiều hơn Y","C. X có số liên kết σ nhiều hơn, nhưng số liên kết π ít hơn Y","D. X có số liên kết σ ít hơn, nhưng số liên kết π nhiều hơn Y"],c:2},
-            {q:"Câu 33. Trong phân tử ammonia (NH₃), số cặp electron chung giữa nguyên tử nitrogen và các nguyên tử hydrogen là",o:["A. 3","B. 2","C. 1","D. 4"],c:0},
-            {q:"Câu 34. Biết nguyên tử chlorine có 7 electron hóa trị, công thức electron của phân tử chlorine là",o:["A. Cl : Cl","B. Cl – Cl","C. Cl = Cl","D. Cl ≡ Cl"],c:0,img:"34 a",img2:"34 b",img3:"34 c",img4:"34 d"}, // Giả sử đáp án A
-            {q:"Câu 35. Chất nào sau đây không có liên kết cộng hóa trị phân cực ?",o:["A. O₂","B. CO₂","C. NH₃","D. HCl"],c:0},
-            {q:"Câu 36. Liên kết hydrogen là loại liên kết hóa học được hình thành giữa các nguyên tử nào sau đây ?",o:["A. Phi kim và hydrogen trong hai phân tử khác nhau","B. Phi kim và hydrogen trong cùng một phân tử","C. Phi kim có độ âm điện lớn và nguyên tử hydrogen","D. F, O, N… có độ âm điện lớn, đồng thời có cặp electron hóa trị chưa liên kết và nguyên tử hydrogen linh động"],c:3},
-            {q:"Câu 37. Tương tác van der Waals được hình thành do",o:["A. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các nguyên tử","B. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các phân tử","C. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các nguyên tử hay phân tử","D. Lực hút tĩnh điện giữa các phân tử phân cực"],c:2},
-            {q:"Câu 38. Chất nào sau đây có thể tạo liên kết hydrogen ?",o:["A. PF₃","B. CH₄","C. CH₃OH","D. H₂S"],c:2},
-            {q:"Câu 39. Chất nào sau đây không thể tạo được liên kết hydrogen ?",o:["A. H₂O","B. CH₄","C. CH₃OH","D. NH₃"],c:1},
-            {q:"Câu 40. Tương tác van der Waals tồn tại giữa những",o:["A. Ion","B. Hạt proton","C. Hạt neutron","D. Phân tử"],c:3},
-            {q:"Câu 41. Liên kết trong phân tử Hydrogen chloride (HCl) được hình thành",o:["A. Do sự xen phủ giữa orbital p của nguyên tử H và orbital s của nguyên tử Cl","B. Do sự xen phủ giữa orbital s của nguyên tử H và orbital s của nguyên tử Cl","C. Do sự xen phủ giữa orbital s của nguyên tử H và orbital p của nguyên tử Cl","D. Do sự xen phủ giữa orbital p của nguyên tử H và orbital p của nguyên tử Cl"],c:2},
-            {q:"Câu 42. Các liên kết biểu diễn bằng các đường nét đứt có vai trò quan trọng trong việc làm bền chuỗi xoắn đôi DNA. Đó là loại liên kết gì?",o:["A. Liên kết ion","B. Liên kết cộng hóa trị có cực","C. Liên kết cộng hóa trị không cực","D. Liên kết hydrogen"],c:3},
-        ];
+const questions = [
+    {q:"Câu 1. Các nguyên tố xếp ở chu kì 6 có số lớp electron trong nguyên tử là",o:["A. 5","B. 6","C. 3","D. 7"],c:1},
+    {q:"Câu 2. Trong bảng tuần hoàn các nguyên tố, số chu kì nhỏ và chu kì lớn là",o:["A. 3 và 3","B. 4 và 4","C. 4 và 3","D. 3 và 4"],c:3},
+    {q:"Câu 3. Số nguyên tố trong chu kì 3 và chu kì 5 là",o:["A. 18 và 8","B. 8 và 10","C. 8 và 18","D. 6 và 8"],c:2},
+    {q:"Câu 4. Bảng tuần hoàn hiện nay có số chu kì và số hàng ngang lần lượt là",o:["A. 7 và 9","B. 7 và 8","C. 7 và 7","D. 6 và 7"],c:1},
+    {q:"Câu 5. Các nguyên tố trong cùng một chu kì có đặc điểm gì chung.",o:["A. Số electron lớp ngoài cùng bằng nhau","B. Số electron hoá trị bằng nhau","C. Tất cả đúng","D. Số lớp electron bằng nhau"],c:3},
+    {q:"Câu 6. Các nguyên tố trong cùng một nhóm A (trừ He) có đặc điểm gì chung?",o:["A. Số electron hoá trị bằng nhau","B. Số electron lớp ngoài cùng bằng nhau","C. Có tính chất hoá học giống nhau","D. Tất cả đúng"],c:3},
+    {q:"Câu 7. Nguyên tử của những nguyên tố trong một nhóm đều có cùng số :",o:["A. Proton","B. Neutron","C. Lớp electron","D. Electron hóa trị"],c:3},
+    {q:"Câu 8. Các nguyên tố hoá học trong bảng tuần hoàn được sắp xếp theo nguyên tắc :",o:["A. Các nguyên tố có cùng số lớp electron trong nguyên tử được xếp cùng một hàng","B. Các nguyên tố có cùng số electron hoá trị trong nguyên tử được xếp thành một cột","C. Các nguyên.tố được sắp theo theo chiều tăng dần của điện tích hạt nhân nguyên tử","D. Cả A, B, C đúng"],c:3},
+    {q:"Câu 9. Số các nguyên tố trong các chu kì 1,2,3 và 4 lần lượt bằng:",o:["A. 1,8,18,32","B. 2,8,8,18","C. 2,8,18,18","D. 2,8,18,32"],c:3},
+    {q:"Câu 10. Cấu hình electron của nguyên tử oxygen là 1s²2s²2p⁴. Vị trí của oxygen trong bảng tuần hoàn là",o:["A. ô số 6, chu kì 2, nhóm VIA","B. ô số 6, chu kì 3, nhóm VIB","C. ô số 8, chu kì 2, nhóm VIA","D. ô số 8, chu kì 2, nhóm VIB"],c:2},
+    {q:"Câu 11. Cấu hình electron của nguyên tử sắt là 1s²2s²2p⁶3s²3p⁶3d⁶4s². Vị trí của sắt trong bảng tuần hoàn là",o:["A. ô số 26, chu kì 3, nhóm VIIIB","B. ô số 26, chu kì 3, nhóm VIIIA","C. ô số 26, chu kì 4, nhóm VIIIA","D. ô số 26, chu kì 4, nhóm VIIIB"],c:3},
+    {q:"Câu 12. Cho cấu hình electron các nguyên tố: Na: [Ne]3s¹, Cr: [Ar]3d⁵4s¹, Br: [Ar]3d¹⁰4s²4p⁵, F:1s²2s²2p⁵, Cu:[Ar]3d¹⁰4s¹. Số nguyên tố thuộc khối s, p, d lần lượt là",o:["A. 2, 1, 2","B. 1, 2, 2","C. 1, 1, 3","D. Không xác định được"],c:1},
+    {q:"Câu 13. Nhóm nguyên tố nào mà hợp chất oxide có hóa trị cao nhất có công thức chung là MO ?",o:["A. Nhóm IA","B. Nhóm IIA","C. Nhóm IVA","D. Nhóm IIIA"],c:1},
+    {q:"Câu 14. M là nguyên tố nhóm IA, oxide cao nhất của nó có công thức hóa học là :",o:["A. MO","B. MO₂","C. M₂O","D. M₂O₇"],c:2},
+    {q:"Câu 15. Nguyên tử của các nguyên tố kim loại kiềm có cấu hình electron lớp ngoài cùng là",o:["A. ns²np²","B. ns²","C. ns²np⁵","D. ns¹"],c:3},
+    {q:"Câu 16. Trong một chu kì, theo chiều số hiệu nguyên tử tăng dần:",o:["A. Tính kim loại của các nguyên tố tăng dần","B. Tính kim loại và tính phi kim của nguyên tố giảm dần","C. Tính phi kim của các nguyên tố tăng dần","D. Tính kim loại và tính phi kim của các nguyên tố tăng dần"],c:2},
+    {q:"Câu 17. Trong cùng một chu kì, theo chiều từ trái qua phải, hóa trị cao nhất của nguyên tố đối với oxygen",o:["A. Giảm dần","B. Tăng dần","C. Không đổi","D. Biến đổi không có quy luật"],c:1},
+    {q:"Câu 18. Giá trị độ âm điện giảm dần theo thứ tự từ trái sang phải của các nguyên tố của chu kì 2 là :",o:["A. F , O , N , C , B , Be , Li","B. Li , B , Be , N , C , F , O","C. Be , Li , C , B , O , N , F","D. N , O , F , Li , Be , B , C"],c:0},
+    {q:"Câu 19. Cấu hình electron hóa trị của nguyên tử các nguyên tố nhóm IIA trong bảng tuần hoàn đều là",o:["A. np²","B. ns²","C. ns²np²","D. ns²np²"],c:1},
+    {q:"Câu 20. Một nguyên tố R có cấu hình electron: 1s²2s²2p³, công thức oxide cao nhất và hợp chất khí với hydrogen lần lượt là:",o:["A. R₂O₅, RH₅","B. R₂O₃, RH","C. R₂O₇, RH","D. R₂O₅, RH₃"],c:3},
+    {q:"Câu 21. Trong các chất dưới đây, chất nào có tính acid yếu nhất?",o:["A. H₂SO₄","B. HClO₄","C. H₃PO₄","D. H₂SiO₃"],c:3},
+    {q:"Câu 22. Dãy gồm các chất có tính base tăng dần là",o:["A. Al(OH)₃, Mg(OH)₂, NaOH","B. NaOH, Mg(OH)₂, Al(OH)₃","C. Mg(OH)₂, Al(OH)₃, NaOH","D. Al(OH)₃, NaOH, Mg(OH)₂"],c:2},
+    {q:"Câu 23. Liên kết ion được tạo thành giữa hai nguyên tử bằng",o:["A. Một hay nhiều cặp electron dùng chung","B. Một hay nhiều cặp electron dùng chung chỉ do một nguyên tử đóng góp","C. Lực hút tĩnh điện giữa các ion mang điện tích trái dấu","D. Một hay nhiều cặp electron dùng chung và các cặp electron này lệch về nguyên tử có độ âm điện lớn hơn"],c:2},
+    {q:"Câu 24. Liên kết ion là loại liên kết hóa học được hình thành nhờ lực hút tĩnh điện giữa các phần tử nào sau đây ?",o:["A. Cation và anion","B. Các anion","C. Cation và electron tự do","D. Electron và hạt nhân nguyên tử"],c:0},
+    {q:"Câu 25. Biểu diễn sự tạo thành ion nào sau đây là đúng ?",o:["A. Na + 1e → Na⁺","B. Cl₂ → 2Cl⁻ + 2e","C. O₂ + 2e → 2O²⁻","D. Al → Al³⁺ + 3e"],c:3},
+    {q:"Câu 26. Số electron và số proton trong ion là",o:["A. 11 electron và 11 proton","B. 10 electron và 11 proton","C. 11 electron và 10 proton","D. 11 electron và 12 proton"],c:1},
+    {q:"Câu 27. Cặp nguyên tử nào sau đây không tạo hợp chất dạng hoặc",o:["A. Na và O","B. K và S","C. Ca và O","D. Ca và Cl"],c:2},
+    {q:"Câu 28. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – s ?",o:["A. H₂","B. Cl₂","C. NH₃","D. HCl"],c:0},
+    {q:"Câu 29. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – p ?",o:["A. H₂","B. Cl₂","C. NH₃","D. O₂"],c:2},
+    {q:"Câu 30. Phát biểu nào sau đây không đúng về liên kết có trong phân tử HCl ?",o:["A. Giữa nguyên tử H và Cl có một liên kết đơn","B. Các electron tham gia liên kết đồng thời bị hút về phía hai hạt nhân","C. Phân tử có một momen lưỡng cực","D. Một electron của nguyên tử hydrogen và một electron của nguyên tử chlorine được góp chung và cách đều hai nguyên tử"],c:3},
+    {q:"Câu 31. Cho chất hữu cơ A có công thức cấu tạo sau : Số liên kết σ trong phân tử A là",o:["A. 6","B. 8","C. 9","D. 11"],c:3},
+    {q:"Câu 32. Cho hai chất hữu cơ X, Y có công thức cấu tạo sau: Nhận xét nào sau đây là đúng ?",o:["A. X và Y có số liên kết σ và số liên kết π bằng nhau","B. X có số liên kết σ và số liên kết π nhiều hơn Y","C. X có số liên kết σ nhiều hơn, nhưng số liên kết π ít hơn Y","D. X có số liên kết σ ít hơn, nhưng số liên kết π nhiều hơn Y"],c:2},
+    {q:"Câu 33. Trong phân tử ammonia (NH₃), số cặp electron chung giữa nguyên tử nitrogen và các nguyên tử hydrogen là",o:["A. 3","B. 2","C. 1","D. 4"],c:0},
+    {q:"Câu 34. Biết nguyên tử chlorine có 7 electron hóa trị, công thức electron của phân tử chlorine là",o:["A. Cl : Cl","B. Cl – Cl","C. Cl = Cl","D. Cl ≡ Cl"],c:1,img:"34 a",img2:"34 b",img3:"34 c",img4:"34 d"},
+    {q:"Câu 35. Chất nào sau đây không có liên kết cộng hóa trị phân cực ?",o:["A. O₂","B. CO₂","C. NH₃","D. HCl"],c:0},
+    {q:"Câu 36. Liên kết hydrogen là loại liên kết hóa học được hình thành giữa các nguyên tử nào sau đây ?",o:["A. Phi kim và hydrogen trong hai phân tử khác nhau","B. Phi kim và hydrogen trong cùng một phân tử","C. Phi kim có độ âm điện lớn và nguyên tử hydrogen","D. F, O, N….có độ âm điện lớn, đồng thời có cặp electron hóa trị chưa liên kết và nguyên tử hydrogen linh động"],c:3},
+    {q:"Câu 37. Tương tác van der Waals được hình thành do",o:["A. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các nguyên tử","B. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các phân tử","C. Tương tác tĩnh điện lưỡng cực – lưỡng cực giữa các nguyên tử hay phân tử","D. Lực hút tĩnh điện giữa các phân tử phân cực"],c:2},
+    {q:"Câu 38. Chất nào sau đây có thể tạo liên kết hydrogen ?",o:["A. PF₃","B. CH₄","C. CH₃OH","D. H₂S"],c:2},
+    {q:"Câu 39. Chất nào sau đây không thể tạo được liên kết hydrogen ?",o:["A. H₂O","B. CH₄","C. CH₃OH","D. NH₃"],c:1},
+    {q:"Câu 40. Tương tác van der Waals tồn tại giữa những",o:["A. Ion","B. Hạt proton","C. Hạt neutron","D. Phân tử"],c:3},
+    {q:"Câu 41. Liên kết trong phân tử Hydrogen chloride (HCl) được hình thành",o:["A. Do sự xen phủ giữa orbital p của nguyên tử H và orbital s của nguyên tử Cl","B. Do sự xen phủ giữa orbital s của nguyên tử H và orbital s của nguyên tử Cl","C. Do sự xen phủ giữa orbital s của nguyên tử H và orbital p của nguyên tử Cl","D. Do sự xen phủ giữa orbital p của nguyên tử H và orbital p của nguyên tử Cl"],c:2},
+    {q:"Câu 42. Các liên kết biểu diễn bằng các đường nét đứt có vai trò quan trọng trong việc làm bền chuỗi xoắn đôi DNA. Đó là loại liên kết gì?",o:["A. Liên kết ion","B. Liên kết cộng hóa trị có cực","C. Liên kết cộng hóa trị không cực","D. Liên kết hydrogen"],c:3}
+];
 
-        /* ===== DỮ LIỆU PHẦN III - TRẢ LỜI NGẮN ===== */
-        const shortQs = [
-            ["Câu 1. Cho các chất sau: C2H6; H2O; NH3; PF3; C2H5OH. Có bao nhiêu chất tạo được liên kết hydrogen?",1],
-            ["Câu 2. Giữa H2O và HF có thể tạo ra bao nhiêu kiểu liên kết hydrogen?",2],
-            ["Câu 3. Có bao nhiêu chất mà trong phân tử chứa liên kết cộng hoá trị không cực trong dãy các chất sau: HCl, O2, CO2, N2, MgO?",3],
-            ["Câu 4. Có bao nhiêu hợp chất chỉ chứa liên kết  cộng hoá trị trong dãy các chất sau: NH3, CaO, PCl3, H2S, NaOH?",3],
-            ["Câu 5.  Cho các  chất sau: NaCl, H2O, K2O, BaCl2, CaF2, HCl, NH4NO3. Số phân tử có liên kết ion là ?",5],
-            ["Câu 6. Để đạt quy tắc octet, nguyên tử Na (Z=11) đã nhường bao nhiêu electron?",1],
-            ["Câu 7. Cho các ion : Na+, Mg2+, O2-, Cl-. Có bao nhiêu hợp chất ion tạo thành từ các ion đã cho ?",3],
-            ["Câu 8. Cho các nguyên tố nitrogen (7N) có hóa trị trong hợp chất với hydrogen là  x. Xác định x. ",3],
-            ["Câu 9. Cho các nguyên tố sulfur (16S) có hóa trị cao nhất trong hợp chất với oxide là  x. Xác định x. ",6],
-            ["Câu 10. Cho các nguyên tố Na, C, S, N, P, Ca, Mg, Cl, K. Số nguyên tố mà ra hợp chất hydroxide cao nhất có tính acid ? ",4]
-        ];
+const shortQs = [
+    ["Câu 1. Cho các chất sau: C₂H₆; H₂O; NH₃; PF₃; C₂H₅OH. Có bao nhiêu chất tạo được liên kết hydrogen?",3],
+    ["Câu 2. Giữa H₂O và HF có thể tạo ra bao nhiêu kiểu liên kết hydrogen?",4],
+    ["Câu 3. Có bao nhiêu chất mà trong phân tử chứa liên kết cộng hoá trị không cực trong dãy các chất sau: HCl, O₂, CO₂, N₂, MgO?",2],
+    ["Câu 4. Có bao nhiêu hợp chất chỉ chứa liên kết cộng hoá trị trong dãy các chất sau: NH₃, CaO, PCl₃, H₂S, NaOH?",3],
+    ["Câu 5. Cho các chất sau: NaCl, H₂O, K₂O, BaCl₂, CaF₂, HCl, NH₄NO₃. Số phân tử có liên kết ion là ?",5],
+    ["Câu 6. Để đạt quy tắc octet, nguyên tử Na (Z=11) đã nhường bao nhiêu electron?",1],
+    ["Câu 7. Cho các ion : Na⁺, Mg²⁺, O²⁻, Cl⁻. Có bao nhiêu hợp chất ion tạo thành từ các ion đã cho ?",4],
+    ["Câu 8. Cho các nguyên tố nitrogen (⁷N) có hóa trị trong hợp chất với hydrogen là x. Xác định x.",3],
+    ["Câu 9. Cho các nguyên tố sulfur (¹⁶S) có hóa trị cao nhất trong hợp chất với oxide là x. Xác định x.",6],
+    ["Câu 10. Cho các nguyên tố Na, C, S, N, P, Ca, Mg, Cl, K. Số nguyên tố mà ra hợp chất hydroxide cao nhất có tính acid ?",5]
+];
 
         /* ===== DỮ LIỆU PHẦN III - TỰ LUẬN ===== */
-        const essayQs = [
-            {q:"Câu 1. Cho các nguyên tố: X (Z=2); Y (Z=9); T (Z=12); M (Z=13); A (Z=14). Viết  cấu hình electron của các nguyên tố, xác định vị trí các nguyên tố trong bảng tuần hoàn.",a:`X(Z=2): 1s² – chu kì 1, nhóm VIIIA<br>Y(Z=9): 1s² 2s² 2p⁵ – chu kì 2, nhóm VIIA<br>T(Z=12): 1s² 2s² 2p⁶ 3s² – chu kì 3, nhóm IIA<br>M(Z=13): 1s² 2s² 2p⁶ 3s² 3p¹ – chu kì 3, nhóm IIIA<br>A(Z=14): 1s² 2s² 2p⁶ 3s² 3p² – chu kì 3, nhóm IVA`},
-            {q:"Câu 2. X và Y là 2 nguyên tố thuộc cùng nhóm A và thuộc 2 chu kì liên tiếp trong bảng hệ thống tuần hoàn. Tổng số hạt proton trong 2 hạt nhân nguyên tử X, Y bằng 30. Số hạt mang điện của nguyên tố X là bao nhiêu?",a:"X = 14 → số hạt mang điện = p + e = 28"},
-            {q:"Câu 3. Oxide cao nhất của nguyên tố R thuộc nhóm VIA có   oxygen về khối lượng, là một sản phẩm trung gian để sản xuất acid   có tầm quan trọng bậc nhất trong công nghiệp. Phần trăm về khối lượng của R trong hợp chất khí với hydrogen là bao nhiêu?",a:"R là S → H₂S → %m(S) = 32/(32+2) × 100 ≈ 94,1%"},
-            {q:"Câu 4. Trong đời sống muối ăn (NaCl) và các gia vị, phụ gia C5H8NO4Na: (bột ngọt) C7H5O2Na (Chất bảo quản thực phẩm) đều có chứa ion sodium. Hiệp hội Tim mạch Hoa Kỳ khuyến cáo lượng ion sodium mỗi ngày được nạp vào cơ thể mỗi người cần thấp hơn 2300mg để bảo vệ tim mạch và thận. Nếu trung bình mỗi ngày một người dùng tổng cộng 5 gam muối ăn; 0,5 gam bột ngọt; 0,05 gam chất bảo quản thì lượng sodium tiêu thụ thấp hơn mức cho phép là bao nhiêu mg ?",a:`NaCl (5g): ≈ 1966 mg Na<br>Bột ngọt (0,5g): ≈ 68 mg Na<br>Chất bảo quản (0,05g): ≈ 8 mg Na<br>Tổng ≈ 2042 mg → thấp hơn 2300 mg là ≈ 258 mg`}
-        ];
+       const essayQs = [
+    {
+        q:"Câu 1. Cho các nguyên tố: X (Z=2); Y (Z=9); T (Z=12); M (Z=13); A (Z=14). Viết cấu hình electron của các nguyên tố, xác định vị trí các nguyên tố trong bảng tuần hoàn.",
+        a:`X (Z=2): 1s² – chu kì 1, nhóm VIIIA (He)<br>
+Y (Z=9): 1s²2s²2p⁵ – chu kì 2, nhóm VIIA (F)<br>
+T (Z=12): 1s²2s²2p⁶3s² – chu kì 3, nhóm IIA (Mg)<br>
+M (Z=13): 1s²2s²2p⁶3s²3p¹ – chu kì 3, nhóm IIIA (Al)<br>
+A (Z=14): 1s²2s²2p⁶3s²3p² – chu kì 3, nhóm IVA (Si)`
+    },
+    {
+        q:"Câu 2. X và Y là 2 nguyên tố thuộc cùng nhóm A và thuộc 2 chu kì liên tiếp trong bảng hệ thống tuần hoàn. Tổng số hạt proton trong 2 hạt nhân nguyên tử X, Y bằng 30. Số hạt mang điện của nguyên tố X là bao nhiêu?",
+        a:`X và Y cùng nhóm A, chu kì liên tiếp → chênh lệch Z = 8.<br>
+Gọi Zₓ và Zᵧ là số proton của X và Y (Zₓ < Zᵧ).<br>
+Zₓ + Zᵧ = 30<br>
+Zᵧ - Zₓ = 8<br>
+Giải hệ: Zₓ = 11 (Na), Zᵧ = 19 (K)<br>
+Nguyên tố X là Na (Z=11).<br>
+Số hạt mang điện của X: proton + electron = 11 + 11 = 22.<br>
+(Trong tài liệu ghi nhầm thành 38 và 19, thực tế đáp án đúng là 22)`
+    },
+    {
+        q:"Câu 3. Oxide cao nhất của nguyên tố R thuộc nhóm VIA có oxygen về khối lượng, là một sản phẩm trung gian để sản xuất acid có tầm quan trọng bậc nhất trong công nghiệp. Phần trăm về khối lượng của R trong hợp chất khí với hydrogen là bao nhiêu?",
+        a:`R thuộc nhóm VIA → oxide cao nhất là RO₃ (SO₃).<br>
+SO₃ là sản phẩm trung gian sản xuất H₂SO₄ (acid quan trọng bậc nhất công nghiệp).<br>
+Hợp chất khí với H: H₂S<br>
+Phần trăm khối lượng R (S) trong H₂S:<br>
+%S = (32 / (2×1 + 32)) × 100% = 32/34 × 100% ≈ 94,12%`
+    },
+    {
+        q:"Câu 4. Trong đời sống muối ăn (NaCl) và các gia vị, phụ gia C₅H₈NO₄Na (bột ngọt) C₇H₅O₂Na (Chất bảo quản thực phẩm) đều có chứa ion sodium. Hiệp hội Tim mạch Hoa Kỳ khuyến cáo lượng ion sodium mỗi ngày được nạp vào cơ thể mỗi người cần thấp hơn 2300mg để bảo vệ tim mạch và thận. Nếu trung bình mỗi ngày một người dùng tổng cộng 5 gam muối ăn; 0,5 gam bột ngọt; 0,05 gam chất bảo quản thì lượng sodium tiêu thụ thấp hơn mức cho phép là bao nhiêu mg ?",
+        a:`Khối lượng Na trong NaCl (5g): (23 / 58,5) × 5 × 1000 ≈ 1966 mg<br>
+Khối lượng Na trong bột ngọt C₅H₈NO₄Na (0,5g): (23 / 169) × 0,5 × 1000 ≈ 68 mg<br>
+Khối lượng Na trong chất bảo quản C₇H₅O₂Na (0,05g): (23 / 144) × 0,05 × 1000 ≈ 8 mg<br>
+Tổng Na tiêu thụ: 1966 + 68 + 8 = 2042 mg<br>
+Thấp hơn mức cho phép: 2300 - 2042 = 258 mg`
+    },
+    {
+        q:"Câu 5: Theo nghiên cứu của Đại học Harvard vào năm 2013, trẻ em sinh sống tại những khu vực có nguồn nước bị nhiễm Fluorine có chỉ số IQ trung bình sẽ thấp hơn so với những trẻ em sống tại vùng khác. Anion F⁻ (fluoride) có độc tính mạnh với hệ thần kinh. Với lượng tương đối thấp: 0,2 gam ion F⁻ trên cơ thể có trọng lượng 70 kg có thể gây tử vong. Tuy nhiên, sự có mặt của anion fluoride lại giúp men răng chắc khỏe và chống chọi các bệnh về sâu răng, vì vậy anion fluoride được thêm vào nước uống đóng chai với nồng độ 1mg ion F⁻ trên 1L nước và bổ sung một lượng nhỏ dưới dạng muối sodium fluoride (NaF) trong kem đánh răng. Một bạn học sinh nặng khoảng 70kg sử dụng loại nước chứa ion F⁻ với lượng 1mg/1L để giúp men răng chắc khỏe, chống sâu răng. Sau khi đọc thông tin về độc tính của ion F⁻, bạn học sinh rất lo lắng. Hãy tính xem với thể tích nước mà bạn học sinh này uống một ngày là bao nhiêu lít thì ion F⁻ có trong nước đạt đến mức có thể gây độc tính?",
+        a:`Lượng F⁻ gây độc cho người 70kg: 0,2 g = 200 mg<br>
+Nồng độ F⁻ trong nước: 1 mg/L<br>
+Thể tích nước cần uống để đạt 200 mg F⁻: 200 mg / (1 mg/L) = 200 L<br>
+Đáp số: 200 lít`
+    },
+    {
+        q:"Câu 6. Theo hiệp hội nha khoa Hoa Kỳ, một người trưởng thành nên bổ sung 3,0 mg F⁻ mỗi ngày dưới dạng muối sodium fluoride (NaF) để ngăn ngừa sâu răng. Lượng NaF không gây độc cho cơ thể khi ở mức 3,19.10⁻² gam/ 1 kg cơ thể. Một mẫu kem đánh răng chứa 0,28% NaF, hãy tính khối lượng mẫu kem đánh răng mà một người nặng 75 kg có thể nuốt nhưng không gây độc tính với cơ thể?",
+        a:`Lượng NaF tối đa không độc cho người 75 kg:<br>
+3,19 × 10⁻² g/kg × 75 kg = 2,3925 g NaF<br>
+Kem đánh răng chứa 0,28% NaF → 0,28 g NaF trong 100 g kem<br>
+Khối lượng kem tối đa: (2,3925 / 0,28) × 100 ≈ 854,46 g<br>
+Đáp số: khoảng 854 g`
+    }
+];
 
         let allQuestions = [];
         let currentIndex = 0;
@@ -435,3 +479,4 @@
     </script>
 </body>
 </html>
+
