@@ -815,7 +815,7 @@
     <!-- Image bank -->
     <div id="image-bank" style="display:none">
         <img src="https://i.ibb.co/Sw4C8SD3/31.png" alt="31">
-        <img src="https://i.ibb.co/zgrWsK1/32.png" alt="32">
+        <img src="https://i.ibb.co/SDDQQHGy/32.png" alt="32">
         <img src="https://i.ibb.co/pjSn6hht/41.jpg" alt="41">
         <img src="https://i.ibb.co/wjtR0Fm/42.png" alt="42">
         <img src="https://i.ibb.co/7JrkCdBQ/34-a.png" alt="34 a">
@@ -929,7 +929,7 @@ const questions = [
     {q:"Câu 29. Liên kết trong phân tử nào sau đây được hình thành nhờ sự xen phủ orbital s – p ?",o:["A. H₂","B. Cl₂","C. NH₃","D. O₂"],c:2},
     {q:"Câu 30. Phát biểu nào sau đây không đúng về liên kết có trong phân tử HCl ?",o:["A. Giữa nguyên tử H và Cl có một liên kết đơn","B. Các electron tham gia liên kết đồng thời bị hút về phía hai hạt nhân","C. Phân tử có một momen lưỡng cực","D. Một electron của nguyên tử hydrogen và một electron của nguyên tử chlorine được góp chung và cách đều hai nguyên tử"],c:3},
     {q:"Câu 31. Cho chất hữu cơ A có công thức cấu tạo sau : Số liên kết σ trong phân tử A là",o:["A. 6","B. 8","C. 9","D. 11"],c:3},
-    {q:"Câu 32. Cho hai chất hữu cơ X, Y có công thức cấu tạo sau: Nhận xét nào sau đây là đúng ?",o:["A. X và Y có số liên kết σ và số liên kết π bằng nhau","B. X có số liên kết σ và số liên kết π nhiều hơn Y","C. X có số liên kết σ nhiều hơn, nhưng số liên kết π ít hơn Y","D. X có số liên kết σ ít hơn, nhưng số liên kết π nhiều hơn Y"],c:2},
+    {q:"Câu 32. Cho hai chất hữu cơ X, Y có công thức cấu tạo sau: https://ibb.co/Myy88KQS (vô link xem đỡ đi) Nhận xét nào sau đây là đúng ?",o:["A. X và Y có số liên kết σ và số liên kết π bằng nhau","B. X có số liên kết σ và số liên kết π nhiều hơn Y","C. X có số liên kết σ nhiều hơn, nhưng số liên kết π ít hơn Y","D. X có số liên kết σ ít hơn, nhưng số liên kết π nhiều hơn Y"],c:2},
     {q:"Câu 33. Trong phân tử ammonia (NH₃), số cặp electron chung giữa nguyên tử nitrogen và các nguyên tử hydrogen là",o:["A. 3","B. 2","C. 1","D. 4"],c:0},
     {q:"Câu 34. Biết nguyên tử chlorine có 7 electron hóa trị, công thức electron của phân tử chlorine là",o:["A. Cl : Cl","B. Cl – Cl","C. Cl = Cl","D. Cl ≡ Cl"],c:1,img:"34 a",img2:"34 b",img3:"34 c",img4:"34 d"},
     {q:"Câu 35. Chất nào sau đây không có liên kết cộng hóa trị phân cực ?",o:["A. O₂","B. CO₂","C. NH₃","D. HCl"],c:0},
@@ -1236,7 +1236,8 @@ async function getPublicIP() {
             document.getElementById('next-question').classList.add('hidden');
             document.getElementById('challenge-feedback').classList.add('hidden');
             document.getElementById('challenge-feedback').classList.remove('show');
-        }
+                applyImages();  // Thêm dòng này
+}
 
         document.getElementById('submit-current').addEventListener('click', () => {
             let isCorrect = false;
@@ -1348,3 +1349,4 @@ async function getPublicIP() {
     </script>
 </body>
 </html>
+
