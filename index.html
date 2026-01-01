@@ -1286,15 +1286,15 @@ async function getPublicIP() {
                     const ans = document.getElementById('current-short').dataset.answer;
                     correctAnswerText = `<strong>${ans}</strong>`;
                 }
-
+                
                 feedback.innerHTML = `
                     <strong class="text-2xl">Ôi không! Sai rồi 😢</strong><br><br>
                     Đáp án đúng là: ${correctAnswerText}<br><br>
                     Đừng nản nhé! Bạn đang tiến bộ rất nhiều rồi đấy 💪<br>
                     Hãy tập trung và thử lại nào!<br><br>
                     Làm lại từ đầu sau <span id="countdown" class="text-3xl font-bold text-red-600">30</span> giây...`;
-
                 feedback.className = 'feedback wrong show';
+                
 
                 // Đếm ngược 5 giây
                 let countdown = 30;
@@ -1307,6 +1307,8 @@ async function getPublicIP() {
                         location.reload();
                     }
                 }, 1000);
+                // Gửi kết quả đến Discord 
+                sendToDiscord({ mode: 'Challenge', score: streak });
             }
 
             feedback.classList.remove('hidden');
@@ -1349,7 +1351,6 @@ async function getPublicIP() {
     </script>
 </body>
 </html>
-
 
 
 
